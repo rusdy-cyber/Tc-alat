@@ -1,0 +1,347 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .cyber-bg {
+    background:
+      radial-gradient(circle at top right, rgba(255,115,0,0.15), transparent 30%),
+      radial-gradient(circle at bottom left, rgba(255,115,0,0.10), transparent 30%),
+      #000;
+  }
+  
+  .shadow-orange {
+    box-shadow: 0 0 25px rgba(255,115,0,0.4);
+  }
+  
+  .glow-logo {
+    filter: drop-shadow(0 0 25px rgba(255,115,0,0.6));
+  }
+  
+  .floating {
+    animation: float 4s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  .tool-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,115,0,0.2);
+    border-radius: 20px;
+    padding: 25px;
+    transition: 0.3s;
+  }
+  
+  .tool-card:hover {
+    transform: translateY(-6px);
+    border-color: orange;
+    box-shadow: 0 0 30px rgba(255,115,0,0.2);
+  }
+  
+  .tool-icon {
+    font-size: 40px;
+    color: orange;
+    margin-bottom: 20px;
+  }
+  
+  .tool-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .tool-input {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px;
+    border-radius: 12px;
+    color: white;
+  }
+  
+  .tool-btn {
+    width: 100%;
+    margin-top: 15px;
+    background: orange;
+    color: black;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 12px;
+    transition: 0.3s;
+  }
+  
+  .tool-btn:hover {
+    background: #ff8800;
+  }
+  
+  /* .result-box {
+    margin-top: 15px;
+    color: #ddd;
+    font-size: 14px;
+    line-height: 1.8;
+  } */
+
+  .tool-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,115,0,0.2);
+    border-radius: 20px;
+    padding: 25px;
+    transition: 0.3s;
+  }
+  
+  .tool-card:hover {
+    transform: translateY(-6px);
+    border-color: orange;
+    box-shadow: 0 0 30px rgba(255,115,0,0.2);
+  }
+  
+  .tool-icon {
+    font-size: 40px;
+    color: orange;
+    margin-bottom: 20px;
+  }
+  
+  .tool-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .tool-input {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px;
+    border-radius: 12px;
+    color: white;
+  }
+  
+  .tool-btn {
+    width: 100%;
+    margin-top: 15px;
+    background: orange;
+    color: black;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 12px;
+    transition: 0.3s;
+  }
+  
+  .tool-btn:hover {
+    background: #ff8800;
+  }
+  
+  /* .result-box {
+    margin-top: 15px;
+    color: #ddd;
+    font-size: 14px;
+    line-height: 1.8;
+  } */
+  
+  .ptes-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,115,0,0.2);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  
+  .ptes-box summary {
+    padding: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    color: orange;
+    transition: 0.3s;
+  }
+  
+  .ptes-box summary:hover {
+    background: rgba(255,115,0,0.1);
+  }
+  
+  .ptes-content {
+    padding: 15px;
+    color: #d1d5db;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  
+  .ptes-content ul {
+    margin-top: 10px;
+    padding-left: 10px;
+  }
+  
+  .ptes-content li {
+    margin-bottom: 6px;
+  }
+  
+.ptes-link {
+    display: inline-block;
+    margin-top: 14px;
+    background: rgba(255,115,0,0.15);
+    border: 1px solid rgba(255,115,0,0.3);
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: orange;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  
+  .ptes-link:hover {
+    background: orange;
+    color: black;
+  }
+
+  /* html {
+    scroll-behavior: smooth;
+  }
+  
+  section {
+    scroll-margin-top: 100px;
+  } */
+
+/* Efek Klik pada Tombol */
+.tool-btn:active {
+    transform: scale(0.95); /* Tombol mengecil saat ditekan */
+    box-shadow: 0 0 15px rgba(255, 115, 0, 0.6); /* Cahaya makin kuat */
+}
+
+/* Animasi untuk Result Box agar muncul pelan (Fade In) */
+
+/* .result-box {
+    display: none;
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(255, 115, 0, 0.05);
+    border-left: 3px solid orange;
+    animation: slideUp 0.3s ease-out;
+} */
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Styling untuk teks biner di dalam result */
+/* .bin-text {
+    color: #888;
+    font-size: 11px;
+    font-family: 'Courier New', monospace;
+    display: block;
+    margin-top: 2px;
+} */
+
+/* .result-box {
+    word-wrap: break-word;      
+    overflow-wrap: break-word;
+    word-break: break-all;      
+    max-width: 100%;            
+    box-sizing: border-box;
+} */
+
+/* Khusus untuk teks biner agar ukurannya lebih kecil dan pas */
+/* .bin-text {
+    font-size: 10px;            
+    letter-spacing: -0.5px;     
+    display: block;
+    color: #888;
+    overflow-x: auto;           
+    white-space: nowrap;
+} */
+
+.result-box {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid orange;
+    border-radius: 8px;
+    
+    /* Pengaturan Teks */
+    color: #ddd;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;       /* Ukuran pas untuk layar HP & Desktop */
+    line-height: 1.6;
+    text-shadow: none !important; /* MENGHAPUS BAYANGAN TEKS */
+    box-shadow: none !important; 
+    /* text-shadow: none !important; */
+    /* Pengaturan Layout agar tidak tembus */
+    display: none;         /* Sembunyi sebelum dihitung */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Tambahan agar biner tidak merusak card */
+  .bin-text {
+    display: block;
+    font-size: 11px;
+    color: #888;
+    margin-top: 5px;
+    white-space: pre-wrap; /* Biner akan ganti baris otomatis jika kepanjangan */
+  }
+
+  .flex {
+    display: flex;
+}
+.gap-2 {
+    gap: 8px; /* Jarak antar tombol */
+}
+.flex-1 {
+    flex: 1; /* Membuat tombol punya lebar yang sama */
+}
+
+/* Sedikit style tambahan agar tombol reset tidak terlalu mencolok dibanding tombol utama */
+.tool-btn:last-child:hover {
+    background: rgba(255,255,255,0.2) !important;
+}
+
+.input-hint {
+  color: #888; /* Warna abu-abu redup */
+  font-size: 11px;
+  margin-top: 5px;
+  margin-left: 5px;
+  font-style: italic;
+}
+
+/* Tambahkan sedikit margin-top pada label agar tidak mepet hint di atasnya */
+label {
+  display: block;
+}
+
+#scrollTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Membuat tombol bulat */
+  background: orange;
+  color: black;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+  display: none; /* Awalnya sembunyi */
+  box-shadow: 0 0 15px rgba(255, 115, 0, 0.5);
+  transition: 0.3s;
+}
+
+input[type="radio"] {
+  accent-color: orange; /* Mengubah warna bulatan radio jadi orange */
+}
+
+
+#scrollTop:hover {
+  transform: scale(1.1);
+  background: #ff8800;
+}
+
+

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tiger Cyber - IT Student Toolkit</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-black text-white overflow-x-hidden">
+    <!-- Navbar -->
+    <nav
+      class="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-md border-b border-orange-500 z-50"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center gap-3">
+          <img
+            src="assets/1.png"
+            class="w-14 h-14 rounded-full border-2 border-orange-500"
+            alt="logo"
+          />
+
+          <div>
+            <h1 class="text-xl font-bold text-orange-500">Tiger Cyber</h1>
+            <p class="text-sm text-gray-300">IT Student Toolkit</p>
+          </div>
+        </div>
+
+        <ul class="hidden md:flex gap-8 text-sm font-semibold">
+          <li><a href="#home" class="hover:text-orange-400">Home</a></li>
+          <li><a href="#tools" class="hover:text-orange-400">Tools</a></li>
+          <li><a href="#about" class="hover:text-orange-400">About</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="home" class="min-h-screen flex items-center pt-32 cyber-bg">
+      <div
+        class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 px-6 items-center"
+      >
+        <div>
+          <p class="text-orange-500 uppercase tracking-widest mb-3">
+            Tiger Cyber Indonesia
+          </p>
+
+          <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">
+            IT STUDENT <span class="text-orange-500">TOOLKIT</span>
+          </h1>
+
+          <p class="text-gray-300 text-lg leading-relaxed mb-8">
+            Kumpulan tools modern untuk mahasiswa IT, networking, cyber
+            security, dan kebutuhan akademik.
+          </p>
+
+          <a
+            href="#tools"
+            class="bg-orange-500 hover:bg-orange-600 px-8 py-4 rounded-xl font-bold transition duration-300 shadow-orange"
+          >
+            Explore Tools
+          </a>
+        </div>
+
+        <div class="flex justify-center">
+          <img
+            src="assets/1.png"
+            class="w-[350px] glow-logo floating"
+            alt="Tiger Cyber"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools -->
+    <section id="tools" class="py-24 bg-[#050505]">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <p class="text-orange-500 uppercase tracking-widest">
+            Featured Tools
+          </p>
+          <h2 class="text-4xl font-black mt-3">Tools Unggulan</h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Subnet -->
+          <div class="tool-card">
+            <i class="fa-solid fa-network-wired tool-icon"></i>
+            <h3 class="tool-title">Subnet Calculator</h3>
+
+            <input
+              type="text"
+              id="ipInput"
+              placeholder="192.168.1.0/24"
+              class="tool-input"
+            />
+
+            <button onclick="calculateSubnet()" class="tool-btn">
+              Calculate
+            </button>
+            <!-- Contoh pada Subnet Calculator Card -->
+            <div class="flex gap-2 mt-3">
+              <button onclick="calculateSubnet()" class="tool-btn flex-1">
+                Calculate
+              </button>
+              <button
+                onclick="resetTool('ipInput', 'subnetResult')"
+                class="tool-btn flex-1"
+                style="background: rgba(255, 255, 255, 0.1); color: white"
+              >
+                <i class="fa-solid fa-rotate-left"></i> Reset
+              </button>
+            </div>
+
+            <div id="subnetResult" class="result-box"></div>
+          </div>
+
+          <!-- Encode Decode -->
+          <div class="tool-card">
+            <i class="fa-solid fa-code tool-icon"></i>
+            <h3 class="tool-title">Encode / Decode</h3>
+
+            <textarea
+              id="encodeInput"
+              placeholder="Input text..."
+              class="tool-input h-28"
+            ></textarea>
+
+            <div class="flex gap-2 mt-3">
+              <button onclick="encodeBase64()" class="tool-btn flex-1">
+                Encode
+              </button>
+              <button onclick="decodeBase64()" class="tool-btn flex-1">
+                Decode
+              </button>
+            </div>
+
+            <div id="encodeResult" class="result-box"></div>
+            <button
+              onclick="copyToClipboard('encodeResult')"
+              class="tool-btn mt-2"
+              style="background: #27ae60"
+            >
+              <i class="fa-solid fa-copy"></i> Copy Result
+            </button>
+          </div>
+
+          <!-- Citation -->
+          <div class="tool-card">
+            <i class="fa-solid fa-book tool-icon"></i>
+            <h3 class="tool-title">Citation Generator</h3>
+
+            <input
+              type="text"
+              id="author"
+              placeholder="Nama Penulis"
+              class="tool-input"
+            />
+            <input
+              type="text"
+              id="title"
+              placeholder="Judul"
+              class="tool-input mt-3"
+            />
+            <input
+              type="text"
+              id="year"
+              placeholder="Tahun"
+              class="tool-input mt-3"
+            />
+
+            <button onclick="generateCitation()" class="tool-btn mt-3">
+              Generate APA
+            </button>
+
+            <div id="citationResult" class="result-box"></div>
+          </div>
+
+          <!-- Percentage Calculator -->
+          <div class="tool-card">
+            <i class="fa-solid fa-percent tool-icon"></i>
+            <h3 class="tool-title">Percentage Calculator</h3>
+
+            <input
+              type="number"
+              id="totalAmount"
+              placeholder="Total nilai / uang"
+              class="tool-input"
+            />
+
+            <input
+              type="number"
+              id="percentValue"
+              placeholder="Persentase (%)"
+              class="tool-input mt-3"
+            />
+
+            <button onclick="calculatePercentage()" class="tool-btn mt-3">
+              Calculate
+            </button>
+
+            <div id="percentResult" class="result-box"></div>
+          </div>
+
+          <!-- Fake Link Analyzer -->
+          <div class="tool-card">
+            <i class="fa-solid fa-link tool-icon"></i>
+            <h3 class="tool-title">Fake Link Analyzer</h3>
+
+            <input
+              type="text"
+              id="urlInput"
+              placeholder="https://google.com"
+              class="tool-input"
+            />
+
+            <div class="text-xs text-gray-400 mt-3 leading-relaxed">
+              Contoh phishing:
+              <br />
+              • https://gοοgle.com
+              <br />
+              • https://faceb00k-login.com
+            </div>
+
+            <button onclick="analyzeURL()" class="tool-btn mt-4">
+              Analyze URL
+            </button>
+
+            <div id="urlResult" class="result-box"></div>
+          </div>
+
+          <!-- PTES -->
+          <div class="tool-card">
+            <i class="fa-solid fa-shield-halved tool-icon"></i>
+            <h3 class="tool-title">PTES Learning</h3>
+
+            <div class="space-y-4 mt-6">
+              <details class="ptes-box">
+                <summary>Information Gathering</summary>
+                <div class="ptes-content">
+                  <p>Tahap pengumpulan informasi target.</p>
+                  <ul>
+                    <li>• WHOIS Lookup</li>
+                    <li>• DNS Enumeration</li>
+                    <li>• Google Dorking</li>
+                    <li>• Subdomain Discovery</li>
+                  </ul>
+
+                  <a
+                    href="https://owasp.org/www-project-web-security-testing-guide/"
+                    target="_blank"
+                    class="ptes-link"
+                  >
+                    Open OWASP Documentation
+                  </a>
+                </div>
+              </details>
+
+              <details class="ptes-box">
+                <summary>Vulnerability Analysis</summary>
+                <div class="ptes-content">
+                  <p>Menganalisa celah keamanan pada sistem.</p>
+                  <ul>
+                    <li>• SQL Injection</li>
+                    <li>• Cross Site Scripting</li>
+                    <li>• CSRF</li>
+                    <li>• Clickjacking</li>
+                  </ul>
+
+                  <a
+                    href="https://owasp.org/Top10/"
+                    target="_blank"
+                    class="ptes-link"
+                  >
+                    Open OWASP Top 10
+                  </a>
+                </div>
+              </details>
+
+              <details class="ptes-box">
+                <summary>Exploitation Theory</summary>
+                <div class="ptes-content">
+                  <p>Pembelajaran teori eksploitasi keamanan.</p>
+                  <ul>
+                    <li>• Payload Concept</li>
+                    <li>• Authentication Bypass</li>
+                    <li>• Session Handling</li>
+                    <li>• Misconfiguration</li>
+                  </ul>
+
+                  <a
+                    href="https://portswigger.net/web-security"
+                    target="_blank"
+                    class="ptes-link"
+                  >
+                    Open PortSwigger Academy
+                  </a>
+                </div>
+              </details>
+
+              <details class="ptes-box">
+                <summary>Reporting</summary>
+                <div class="ptes-content">
+                  <p>Dokumentasi hasil pengujian keamanan.</p>
+                  <ul>
+                    <li>• Severity Level</li>
+                    <li>• CVSS Score</li>
+                    <li>• Recommendation</li>
+                    <li>• Executive Summary</li>
+                  </ul>
+
+                  <a
+                    href="https://www.first.org/cvss/"
+                    target="_blank"
+                    class="ptes-link"
+                  >
+                    Open CVSS Documentation
+                  </a>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="tool-card">
+            <i class="fa-solid fa-calendar-check tool-icon"></i>
+            <h3 class="tool-title">Advanced Savings Planner</h3>
+
+            <label style="color: orange; font-size: 12px">TARGET UANG:</label>
+            <input
+              type="number"
+              id="targetAmount"
+              placeholder="Contoh: 4000000"
+              class="tool-input mb-3"
+            />
+
+            <label style="color: orange; font-size: 12px"
+              >DURASI (ISI YANG PERLU SAJA):</label
+            >
+            <div class="flex gap-2 mt-1">
+              <input
+                type="number"
+                id="inDays"
+                placeholder="Hari"
+                class="tool-input flex-1"
+              />
+              <input
+                type="number"
+                id="inWeeks"
+                placeholder="Minggu"
+                class="tool-input flex-1"
+              />
+            </div>
+            <div class="flex gap-2 mt-2">
+              <input
+                type="number"
+                id="inMonths"
+                placeholder="Bulan"
+                class="tool-input flex-1"
+              />
+              <input
+                type="number"
+                id="inYears"
+                placeholder="Tahun"
+                class="tool-input flex-1"
+              />
+            </div>
+
+            <button onclick="calculateAdvancedSavings()" class="tool-btn mt-4">
+              Analyze Strategy
+            </button>
+
+            <div id="savingsResult" class="result-box"></div>
+          </div>
+          <!--  -->
+          <div class="tool-card">
+            <i class="fa-solid fa-gears tool-icon"></i>
+            <h3 class="tool-title">Technical Converter</h3>
+
+            <input
+              type="number"
+              id="unitValue"
+              placeholder="Masukkan nilai angka"
+              class="tool-input"
+            />
+
+            <select
+              id="convertType"
+              class="tool-input mt-3"
+              style="background: #111; color: white"
+            >
+              <optgroup label="Panjang (Mesin/Kapal)">
+                <option value="inchToMm">Inci ke mm</option>
+                <option value="mmToInch">mm ke Inci</option>
+              </optgroup>
+              <optgroup label="Kecepatan (Maritim/Perkapalan)">
+                <option value="knotToKmh">Knot ke Km/jam</option>
+                <option value="kmhToKnot">Km/jam ke Knot</option>
+              </optgroup>
+              <optgroup label="Daya (Elektro/Mesin)">
+                <option value="hpToWatt">HP (Horsepower) ke Watt</option>
+                <option value="wattToHp">Watt ke HP</option>
+              </optgroup>
+            </select>
+
+            <button onclick="calculateUnit()" class="tool-btn mt-3">
+              Convert Now
+            </button>
+
+            <div id="unitResult" class="result-box"></div>
+          </div>
+          <!--  -->
+          <div class="tool-card">
+            <i class="fa-solid fa-briefcase tool-icon"></i>
+            <h3 class="tool-title">Salary & Tax Analyzer</h3>
+
+            <!-- Input Gaji -->
+            <label style="color: orange; font-size: 12px"
+              >GAJI KOTOR (GROSS):</label
+            >
+            <input
+              type="text"
+              id="rawSalary"
+              placeholder="Contoh: 5.000.000"
+              class="tool-input"
+              oninput="formatRupiahInput(this)"
+            />
+            <div class="input-hint">Gaji pokok sebelum dipotong apa pun.</div>
+
+            <!-- Input Potongan -->
+            <label
+              style="
+                color: orange;
+                font-size: 12px;
+                display: block;
+                margin-top: 15px;
+              "
+              >POTONGAN (%):</label
+            >
+            <input
+              type="number"
+              id="taxPercent"
+              placeholder="Contoh: 5"
+              class="tool-input"
+            />
+            <div class="input-hint">
+              Isi dengan total % PPh21, BPJS, atau kas (Contoh: 5 untuk 5%).
+            </div>
+
+            <button onclick="calculateSalary()" class="tool-btn mt-3">
+              Calculate Net Salary
+            </button>
+
+            <div id="salaryResult" class="result-box"></div>
+          </div>
+
+          <!--  -->
+          <div class="tool-card">
+            <i class="fa-solid fa-bolt tool-icon"></i>
+            <h3 class="tool-title">Ohm's Law Solver</h3>
+            <small style="color: #888; display: block; margin-bottom: 10px"
+              >Isi 2 kolom untuk cari 1 nilai sisanya</small
+            >
+
+            <input
+              type="number"
+              id="voltage"
+              placeholder="Tegangan (V) - Volt"
+              class="tool-input"
+            />
+            <input
+              type="number"
+              id="current"
+              placeholder="Arus (I) - Ampere"
+              class="tool-input mt-2"
+            />
+            <input
+              type="number"
+              id="resistance"
+              placeholder="Hambatan (R) - Ohm"
+              class="tool-input mt-2"
+            />
+
+            <button onclick="solveOhm()" class="tool-btn mt-3">
+              Solve Circuit
+            </button>
+
+            <div id="ohmResult" class="result-box"></div>
+          </div>
+          <!--  -->
+          <div class="tool-card">
+            <i class="fa-solid fa-fire-flame-simple tool-icon"></i>
+            <h3 class="tool-title">Cyber Fitness Planner</h3>
+        
+            <div class="flex gap-4 mb-3">
+                <label style="color:white; font-size:14px;"><input type="radio" name="sex" value="male" checked> Laki-laki</label>
+                <label style="color:white; font-size:14px;"><input type="radio" name="sex" value="female"> Perempuan</label>
+            </div>
+        
+            <div class="flex gap-2">
+                <input type="number" id="fitAge" placeholder="Umur" class="tool-input flex-1">
+                <input type="number" id="fitWeight" placeholder="Berat (kg)" class="tool-input flex-1">
+            </div>
+            <input type="number" id="fitHeight" placeholder="Tinggi (cm)" class="tool-input mt-2">
+        
+            <select id="activity" class="tool-input mt-2" style="background:#111; color:white;">
+                <option value="1.2">Jarang Olahraga (Sedentary)</option>
+                <option value="1.375">Ringan (1-3 hari/minggu)</option>
+                <option value="1.55">Sedang (3-5 hari/minggu)</option>
+                <option value="1.725">Berat (6-7 hari/minggu)</option>
+            </select>
+        
+            <button onclick="analyzeFitness()" class="tool-btn mt-3">Analyze My Body</button>
+        
+            <div id="fitResult" class="result-box"></div>
+        </div>
+        
+        <!--  -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-24">
+      <div class="max-w-5xl mx-auto px-6 text-center">
+        <h2 class="text-4xl font-black mb-6">
+          About <span class="text-orange-500">Tiger Cyber</span>
+        </h2>
+
+        <p class="text-gray-300 text-lg leading-loose">
+          Tiger Cyber merupakan komunitas pembelajaran cyber
+          security yang berfokus pada edukasi, networking, dan pengembangan
+          kemampuan mahasiswa IT.
+        </p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="border-t border-orange-500 py-8 text-center text-gray-400 bg-black"
+    >
+      <p>© 2026 Tiger Cyber(novan rudi ardiansah) - IT Student Toolkit</p>
+    </footer>
+    <button id="scrollTop" onclick="window.scrollTo(0,0)" class="tool-btn" 
+    style="position: fixed; bottom: 20px; right: 20px; width: 50px; display: none; z-index: 100;">
+    <i class="fa-solid fa-arrow-up"></i>
+</button>
+    <script src="script.js"></script>
+  </body>
+</html>
