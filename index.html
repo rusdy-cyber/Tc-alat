@@ -124,7 +124,7 @@
           <!-- Encode Decode -->
           <div class="tool-card">
             <i class="fa-solid fa-code tool-icon"></i>
-            <h3 class="tool-title">Encode / Decode</h3>
+            <h3 class="tool-title">Encode / Decode 64b</h3>
 
             <textarea
               id="encodeInput"
@@ -521,6 +521,34 @@
         </div>
         
         <!--  -->
+        <div class="tool-card">
+          <i class="fa-solid fa-hard-hat tool-icon"></i>
+          <h3 class="tool-title">Civil Concrete Calc</h3>
+          
+          <div class="flex gap-2">
+              <input type="number" id="conLength" placeholder="P (m)" class="tool-input flex-1">
+              <input type="number" id="conWidth" placeholder="L (m)" class="tool-input flex-1">
+              <input type="number" id="conThick" placeholder="T (cm)" class="tool-input flex-1">
+          </div>
+          <div class="input-hint">Panjang, Lebar (meter), Tebal (centimeter).</div>
+      
+          <button onclick="calculateConcrete()" class="tool-btn mt-3">Calculate Volume</button>
+      
+          <div id="concreteResult" class="result-box"></div>
+      </div>
+      <!--  -->
+      <div class="tool-card">
+        <i class="fa-solid fa-ruler-combined tool-icon"></i>
+        <h3 class="tool-title">Slope Calculator</h3>
+        
+        <input type="number" id="rise" placeholder="Tinggi (Rise) m" class="tool-input">
+        <input type="number" id="run" placeholder="Panjang Datar (Run) m" class="tool-input mt-2">
+    
+        <button onclick="calculateSlope()" class="tool-btn mt-3">Analyze Slope</button>
+        <div id="slopeResult" class="result-box"></div>
+    </div>
+    <!--  -->
+
         </div>
       </div>
 

@@ -592,6 +592,56 @@ function analyzeFitness() {
       </div>
   `;
 }
+function calculateConcrete() {
+    const p = parseFloat(document.getElementById('conLength').value);
+    const l = parseFloat(document.getElementById('conWidth').value);
+    const t = parseFloat(document.getElementById('conThick').value) / 100; // cm ke m
+    const resultDiv = document.getElementById('concreteResult');
+
+    if (!p || !l || !t) {
+        resultDiv.innerHTML = '<span style="color:red">Isi P, L, dan T!</span>';
+        resultDiv.style.display = 'block';
+        return;
+    }
+
+    const volume = p * l * t;
+    // Estimasi kasar: 1m3 beton butuh ~8 sak semen (50kg)
+    const semen = Math.ceil(volume * 8);
+
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `
+        <div style="border-left: 3px solid orange; padding-left: 10px; font-family: monospace;">
+            <b style="color:orange">[ CIVIL ANALYSIS ]</b><br>
+            Volume Beton : <b>${volume.toFixed(2)} m³</b><br>
+            Estimasi Semen: <b>${semen} Sak (50kg)</b><br>
+            <small style="color:#888;">*Estimasi campuran standar 1:2:3.</small>
+        </div>`;
+}
+
+
+function calculateSlope() {
+    const rise = parseFloat(document.getElementById('rise').value);
+    const run = parseFloat(document.getElementById('run').value);
+    const resultDiv = document.getElementById('slopeResult');
+
+    if (!rise || !run) {
+        resultDiv.innerHTML = '<span style="color:red">Isi Rise dan Run!</span>';
+        resultDiv.style.display = 'block';
+        return;
+    }
+
+    const percent = (rise / run) * 100;
+    const degree = Math.atan(rise / run) * (180 / Math.PI);
+
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `
+        <div style="border-left: 3px solid orange; padding-left: 10px; font-family: monospace;">
+            <b style="color:orange">[ SLOPE INFO ]</b><br>
+            Kemiringan (%) : <b>${percent.toFixed(2)}%</b><br>
+            Sudut (Degree) : <b>${degree.toFixed(2)}°</b>
+        </div>`;
+}
+
 
 
 
