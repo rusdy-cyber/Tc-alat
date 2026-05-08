@@ -56,8 +56,7 @@
           </h1>
 
           <p class="text-gray-300 text-lg leading-relaxed mb-8">
-            Kumpulan tools modern untuk mahasiswa IT, networking, cyber
-            security, dan kebutuhan akademik.
+            Kumpulan tools modern untuk mahasiswa IT dan umum: Networking & Cyber Security, Finance & Manajemen, Teknik & Perkebunan (Sipil/Mesin/Sawit), Kebugaran & Akademik (Umum)
           </p>
 
           <a
@@ -154,7 +153,7 @@
           <!-- Citation -->
           <div class="tool-card">
             <i class="fa-solid fa-book tool-icon"></i>
-            <h3 class="tool-title">Citation Generator</h3>
+            <h3 class="tool-title">Citation daftar pustaka Generator</h3>
 
             <input
               type="text"
@@ -185,7 +184,7 @@
           <!-- Percentage Calculator -->
           <div class="tool-card">
             <i class="fa-solid fa-percent tool-icon"></i>
-            <h3 class="tool-title">Percentage Calculator</h3>
+            <h3 class="tool-title">Pesen/diskon Calculator</h3>
 
             <input
               type="number"
@@ -211,7 +210,7 @@
           <!-- Fake Link Analyzer -->
           <div class="tool-card">
             <i class="fa-solid fa-link tool-icon"></i>
-            <h3 class="tool-title">Fake Link Analyzer</h3>
+            <h3 class="tool-title">link Palsu Analisis</h3>
 
             <input
               type="text"
@@ -329,7 +328,7 @@
 
           <div class="tool-card">
             <i class="fa-solid fa-calendar-check tool-icon"></i>
-            <h3 class="tool-title">Advanced Savings Planner</h3>
+            <h3 class="tool-title">Perencanaan Tabungan</h3>
 
             <label style="color: orange; font-size: 12px">TARGET UANG:</label>
             <input
@@ -417,7 +416,7 @@
           <!--  -->
           <div class="tool-card">
             <i class="fa-solid fa-briefcase tool-icon"></i>
-            <h3 class="tool-title">Salary & Tax Analyzer</h3>
+            <h3 class="tool-title">Perhitungan gaji dan potongan pajak</h3>
 
             <!-- Input Gaji -->
             <label style="color: orange; font-size: 12px"
@@ -495,63 +494,319 @@
           <!--  -->
           <div class="tool-card">
             <i class="fa-solid fa-fire-flame-simple tool-icon"></i>
-            <h3 class="tool-title">Cyber Fitness Planner</h3>
-        
+            <h3 class="tool-title">Menghitung tubuh ideal</h3>
+
             <div class="flex gap-4 mb-3">
-                <label style="color:white; font-size:14px;"><input type="radio" name="sex" value="male" checked> Laki-laki</label>
-                <label style="color:white; font-size:14px;"><input type="radio" name="sex" value="female"> Perempuan</label>
+              <label style="color: white; font-size: 14px"
+                ><input type="radio" name="sex" value="male" checked />
+                Laki-laki</label
+              >
+              <label style="color: white; font-size: 14px"
+                ><input type="radio" name="sex" value="female" />
+                Perempuan</label
+              >
             </div>
-        
+
             <div class="flex gap-2">
-                <input type="number" id="fitAge" placeholder="Umur" class="tool-input flex-1">
-                <input type="number" id="fitWeight" placeholder="Berat (kg)" class="tool-input flex-1">
+              <input
+                type="number"
+                id="fitAge"
+                placeholder="Umur"
+                class="tool-input flex-1"
+              />
+              <input
+                type="number"
+                id="fitWeight"
+                placeholder="Berat (kg)"
+                class="tool-input flex-1"
+              />
             </div>
-            <input type="number" id="fitHeight" placeholder="Tinggi (cm)" class="tool-input mt-2">
-        
-            <select id="activity" class="tool-input mt-2" style="background:#111; color:white;">
-                <option value="1.2">Jarang Olahraga (Sedentary)</option>
-                <option value="1.375">Ringan (1-3 hari/minggu)</option>
-                <option value="1.55">Sedang (3-5 hari/minggu)</option>
-                <option value="1.725">Berat (6-7 hari/minggu)</option>
+            <input
+              type="number"
+              id="fitHeight"
+              placeholder="Tinggi (cm)"
+              class="tool-input mt-2"
+            />
+
+            <select
+              id="activity"
+              class="tool-input mt-2"
+              style="background: #111; color: white"
+            >
+              <option value="1.2">Jarang Olahraga (Sedentary)</option>
+              <option value="1.375">Ringan (1-3 hari/minggu)</option>
+              <option value="1.55">Sedang (3-5 hari/minggu)</option>
+              <option value="1.725">Berat (6-7 hari/minggu)</option>
             </select>
-        
-            <button onclick="analyzeFitness()" class="tool-btn mt-3">Analyze My Body</button>
-        
+
+            <button onclick="analyzeFitness()" class="tool-btn mt-3">
+              Analyze My Body
+            </button>
+
             <div id="fitResult" class="result-box"></div>
-        </div>
-        
-        <!--  -->
-        <div class="tool-card">
-          <i class="fa-solid fa-hard-hat tool-icon"></i>
-          <h3 class="tool-title">Civil Concrete Calc</h3>
-          
-          <div class="flex gap-2">
-              <input type="number" id="conLength" placeholder="P (m)" class="tool-input flex-1">
-              <input type="number" id="conWidth" placeholder="L (m)" class="tool-input flex-1">
-              <input type="number" id="conThick" placeholder="T (cm)" class="tool-input flex-1">
           </div>
-          <div class="input-hint">Panjang, Lebar (meter), Tebal (centimeter).</div>
-      
-          <button onclick="calculateConcrete()" class="tool-btn mt-3">Calculate Volume</button>
-      
-          <div id="concreteResult" class="result-box"></div>
-      </div>
-      <!--  -->
-      <div class="tool-card">
-        <i class="fa-solid fa-ruler-combined tool-icon"></i>
-        <h3 class="tool-title">Slope Calculator</h3>
-        
-        <input type="number" id="rise" placeholder="Tinggi (Rise) m" class="tool-input">
-        <input type="number" id="run" placeholder="Panjang Datar (Run) m" class="tool-input mt-2">
-    
-        <button onclick="calculateSlope()" class="tool-btn mt-3">Analyze Slope</button>
-        <div id="slopeResult" class="result-box"></div>
-    </div>
-    <!--  -->
 
+          <!--  -->
+          <div class="tool-card">
+            <i class="fa-solid fa-hard-hat tool-icon"></i>
+            <h3 class="tool-title">Civil Concrete Calc</h3>
+
+            <div class="flex gap-2">
+              <input
+                type="number"
+                id="conLength"
+                placeholder="P (m)"
+                class="tool-input flex-1"
+              />
+              <input
+                type="number"
+                id="conWidth"
+                placeholder="L (m)"
+                class="tool-input flex-1"
+              />
+              <input
+                type="number"
+                id="conThick"
+                placeholder="T (cm)"
+                class="tool-input flex-1"
+              />
+            </div>
+            <div class="input-hint">
+              Panjang, Lebar (meter), Tebal (centimeter).
+            </div>
+
+            <button onclick="calculateConcrete()" class="tool-btn mt-3">
+              Calculate Volume
+            </button>
+
+            <div id="concreteResult" class="result-box"></div>
+          </div>
+          <!--  -->
+          <div class="tool-card">
+            <i class="fa-solid fa-ruler-combined tool-icon"></i>
+            <h3 class="tool-title">Slope Calculator</h3>
+
+            <input
+              type="number"
+              id="rise"
+              placeholder="Tinggi (Rise) m"
+              class="tool-input"
+            />
+            <input
+              type="number"
+              id="run"
+              placeholder="Panjang Datar (Run) m"
+              class="tool-input mt-2"
+            />
+
+            <button onclick="calculateSlope()" class="tool-btn mt-3">
+              Analyze Slope
+            </button>
+            <div id="slopeResult" class="result-box"></div>
+          </div>
+          <!--  -->
+          <div class="tool-card">
+            <i class="fa-solid fa-file-invoice-dollar tool-icon"></i>
+            <h3 class="tool-title">Kalkulator Pajak Tahunan(NPWP)</h3>
+
+            <label style="color: orange; font-size: 12px"
+              >GAJI PER BULAN:</label
+            >
+            <input
+              type="text"
+              id="monthlySalary"
+              placeholder="Contoh: 5.000.000"
+              class="tool-input"
+              oninput="updateMonthlyHint(this)"
+            />
+
+            <!-- Keterangan konfirmasi angka -->
+            <div
+              id="monthlyHint"
+              style="
+                color: #888;
+                font-size: 12px;
+                margin-top: 5px;
+                font-style: italic;
+              "
+            >
+              Gaji: Rp bulan
+            </div>
+
+            <label
+              style="
+                color: orange;
+                font-size: 12px;
+                display: block;
+                margin-top: 15px;
+              "
+              >STATUS KELUARGA:</label
+            >
+            <select
+              id="maritalStatus"
+              class="tool-input"
+              style="background: #111; color: white"
+            >
+              <option value="54000000">Lajang / Jomblo (TK/0)</option>
+              <option value="58500000">Menikah - Tanpa Anak (K/0)</option>
+              <option value="63000000">Menikah - 1 Anak (K/1)</option>
+              <option value="67500000">Menikah - 2 Anak (K/2)</option>
+              <option value="72000000">Menikah - 3 Anak (K/3)</option>
+            </select>
+
+            <button onclick="calculateSimpleTax()" class="tool-btn mt-3">
+              Hitung Pajak Saya
+            </button>
+
+            <div id="annualTaxResult" class="result-box"></div>
+          </div>
+          <!--  -->
+          <!-- ALAT SAWIT MANAGEMENT PRO -->
+          <div class="tool-card">
+            <i class="fa-solid fa-tree tool-icon"></i>
+            <h3 class="tool-title">Sawit Management</h3>
+
+            <!-- Data Pokok -->
+            <label style="color: orange; font-size: 12px"
+              >JUMLAH POKOK (BATANG):</label
+            >
+            <input
+              type="number"
+              id="manualTrees"
+              value="60"
+              class="tool-input"
+            />
+
+            <!-- Input Hasil Panen Langsung Kg -->
+            <label
+              style="
+                color: orange;
+                font-size: 12px;
+                margin-top: 15px;
+                display: block;
+              "
+              >TOTAL HASIL PANEN (KG):</label
+            >
+            <input
+              type="number"
+              id="totalHarvestKg"
+              placeholder="Contoh: 1200"
+              class="tool-input"
+            />
+            <div class="input-hint">
+              Masukkan total berat timbangan dari pabrik/tengkulak.
+            </div>
+
+            <div class="flex gap-2">
+              <div class="flex-1">
+                <label style="color: orange; font-size: 11px"
+                  >SORTASI (%):</label
+                >
+                <input
+                  type="number"
+                  id="sortasi"
+                  placeholder="Misal: 3"
+                  class="tool-input"
+                />
+              </div>
+              <div class="flex-1">
+                <label style="color: orange; font-size: 11px"
+                  >HARGA TBS (Rp/KG):</label
+                >
+                <input
+                  type="number"
+                  id="priceTBS"
+                  placeholder="2500"
+                  class="tool-input"
+                />
+              </div>
+            </div>
+
+            <!-- Biaya Perawatan -->
+            <div
+              style="
+                background: rgba(255, 115, 0, 0.05);
+                padding: 12px;
+                border-radius: 12px;
+                margin-top: 15px;
+                border: 1px solid rgba(255, 115, 0, 0.1);
+              "
+            >
+              <div class="flex gap-2">
+                <div class="flex-1">
+                  <label style="color: orange; font-size: 11px"
+                    >DOSIS (KG/POKOK):</label
+                  >
+                  <input
+                    type="number"
+                    id="dosisPerPokok"
+                    placeholder="0.5"
+                    class="tool-input"
+                  />
+                </div>
+                <div class="flex-1">
+                  <label style="color: orange; font-size: 11px"
+                    >HARGA PUPUK (Rp):</label
+                  >
+                  <input
+                    type="text"
+                    id="priceMaterial"
+                    placeholder="12.000"
+                    class="tool-input"
+                    oninput="formatRupiahInput(this)"
+                  />
+                </div>
+              </div>
+              <label
+                style="
+                  color: orange;
+                  font-size: 11px;
+                  display: block;
+                  margin-top: 10px;
+                "
+                >UPAH PRUNING (Rp/POKOK):</label
+              >
+              <input
+                type="number"
+                id="upahPerPokok"
+                placeholder="5000"
+                class="tool-input"
+              />
+            </div>
+
+            <button onclick="calculateSawitSimple()" class="tool-btn mt-3">
+              Analyze Profit
+            </button>
+
+            <div id="sawitResult" class="result-box"></div>
+          </div>
+
+          <!--  -->
+          <div class="tool-card">
+            <i class="fa-solid fa-chart-line tool-icon"></i>
+            <h3 class="tool-title">Business Profit Analyzer</h3>
+        
+            <label style="color:orange; font-size:12px;">OMZET (TOTAL PENJUALAN):</label>
+            <input type="text" id="bizRevenue" placeholder="Rp 0" class="tool-input" oninput="formatRupiahInput(this)">
+            
+            <div class="flex gap-2 mt-2">
+                <div class="flex-1">
+                    <label style="color:orange; font-size:11px;">MODAL BARANG (HPP):</label>
+                    <input type="text" id="bizCogs" placeholder="Rp 0" class="tool-input" oninput="formatRupiahInput(this)">
+                </div>
+                <div class="flex-1">
+                    <label style="color:orange; font-size:11px;">BIAYA LAIN (IKLAN/DLL):</label>
+                    <input type="text" id="bizExpense" placeholder="Rp 0" class="tool-input" oninput="formatRupiahInput(this)">
+                </div>
+            </div>
+        
+            <button onclick="calculateBizProfit()" class="tool-btn mt-3">Analyze Profit</button>
+        
+            <div id="bizResult" class="result-box"></div>
+        </div>
+        
         </div>
       </div>
-
     </section>
 
     <!-- About -->
@@ -562,9 +817,9 @@
         </h2>
 
         <p class="text-gray-300 text-lg leading-loose">
-          Tiger Cyber merupakan komunitas pembelajaran cyber
-          security yang berfokus pada edukasi, networking, dan pengembangan
-          kemampuan mahasiswa IT.
+          Tiger Cyber merupakan komunitas pembelajaran cyber security yang
+          berfokus pada edukasi, networking, dan pengembangan kemampuan
+          mahasiswa IT.
         </p>
       </div>
     </section>
@@ -573,12 +828,23 @@
     <footer
       class="border-t border-orange-500 py-8 text-center text-gray-400 bg-black"
     >
-      <p>© 2026 Tiger Cyber(novan rudi ardiansah) - IT Student Toolkit</p>
+      <p>© 2026 Tiger Cyber(novan rudi ardiansah) - IT Student politeknik</p>
     </footer>
-    <button id="scrollTop" onclick="window.scrollTo(0,0)" class="tool-btn" 
-    style="position: fixed; bottom: 20px; right: 20px; width: 50px; display: none; z-index: 100;">
-    <i class="fa-solid fa-arrow-up"></i>
-</button>
+    <button
+      id="scrollTop"
+      onclick="window.scrollTo(0,0)"
+      class="tool-btn"
+      style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        display: none;
+        z-index: 100;
+      "
+    >
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
     <script src="script.js"></script>
   </body>
 </html>

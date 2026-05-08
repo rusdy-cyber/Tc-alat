@@ -64,3 +64,31 @@ Dibuat dengan ❤️ untuk  **Politeknik Bengkalis**.
 - GitHub: [@rusdy-cyber](https://github.com)
 - Jurusan: **Teknik Informatika**
 
+data trening sawit kalulator
+```
+Misalkan kamu baru selesai panen dan mau hitung sisa uang di kantong:
+JUMLAH POKOK: Isi 60 (Karena kamu punya 60 batang).
+TOTAL HASIL PANEN (KG): Isi 1200 (Misal hasil timbangan semua buahmu adalah 1.200 kg).
+SORTASI (%): Isi 3 (Biasanya pabrik potong 3 kilo setiap 100 kilo karena ada sampah/tangkai).
+HARGA TBS (Rp): Isi 2500 (Harga jual per kilonya).
+DOSIS (KG): Isi 0.5 (Artinya satu pohon kamu kasih setengah kilo pupuk).
+HARGA PUPUK (Rp): Isi 12000 (Harga beli pupuk per kilonya).
+UPAH PRUNING (Rp): Isi 5000 (Ongkos tukang buat bersihin satu pohon).
+🧮 Cara Alatmu Menghitung (Biar Gak Bingung):
+Langkah 1 (Hitung Berat): Dari 1.200 kg, pabrik potong 3% (36 kg). Jadi yang dibayar cuma 1.164 kg.
+Langkah 2 (Hitung Uang Jual): 1.164 kg dikali Rp 2.500 = Rp 2.910.000 (Ini uang kotor).
+Langkah 3 (Hitung Modal):
+Beli pupuk buat 60 pohon (30 kg) = Rp 360.000.
+Bayar tukang buat 60 pohon = Rp 300.000.
+Total Modal: Rp 660.000.
+Langkah 4 (Sisa Bersih): Uang jual (2,9 juta) dikurangi Modal (660 ribu) = Rp 2.250.000.
+
+```
+data trening jualan
+```
+Omzet (Penjualan): 2.000.000 (Misal laku 20 kaos seharga 100rb)
+Modal Barang (HPP): 1.200.000 (Harga kulakan 20 kaos @60rb)
+Biaya Lain: 200.000 (Bayar iklan/ongkir)
+Tujuan: Pemilik bisnis bisa lihat bahwa dari 2 juta uang masuk, untung aslinya cuma 600rb. Sisanya adalah uang modal yang jangan dipakai jajan.
+```
+

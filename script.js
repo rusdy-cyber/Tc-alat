@@ -642,6 +642,244 @@ function calculateSlope() {
         </div>`;
 }
 
+// Fungsi untuk menampilkan konfirmasi teks gaji saat mengetik
+function updateMonthlyHint(input) {
+    // 1. Jalankan format Rupiah otomatis yang sudah kita buat sebelumnya
+    formatRupiahInput(input); 
+
+    // 2. Ambil angkanya dan tampilkan di hint bawahnya
+    const hint = document.getElementById('monthlyHint');
+    if (input.value) {
+        hint.innerHTML = `Gaji: <span style="color:orange">Rp ${input.value}</span> / bulan`;
+    } else {
+        hint.innerHTML = `Gaji: Rp 0 / bulan`;
+    }
+}
+
+// Fungsi hitung pajak (tetap seperti sebelumnya)
+function calculateSimpleTax() {
+    const rawValue = document.getElementById('monthlySalary').value.replace(/\./g, "");
+    const monthlySalary = parseFloat(rawValue) || 0;
+    const ptkp = parseFloat(document.getElementById('maritalStatus').value);
+    const resultDiv = document.getElementById('annualTaxResult');
+
+    if (monthlySalary <= 0) {
+        resultDiv.innerHTML = '<span style="color:#ff4444">Masukkan gaji bulanan kamu!</span>';
+        resultDiv.style.display = 'block';
+        return;
+    }
+
+    const annualSalary = monthlySalary * 12;
+    let pkp = annualSalary - ptkp;
+    if (pkp < 0) pkp = 0;
+
+    // Pajak 5% untuk penghasilan kena pajak
+    const annualTax = pkp * 0.05;
+    const monthlyTax = annualTax / 12;
+
+    const formatID = (n) => new Intl.NumberFormat('id-ID').format(Math.ceil(n));
+
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `
+        <div style="border-left: 3px solid orange; padding-left: 12px; font-family: monospace;">
+            <b style="color:orange">[ RINCIAN KONFIRMASI ]</b><br>
+            Input Gaji   : Rp ${formatID(monthlySalary)} / bln<br>
+            Total 1 Tahun: Rp ${formatID(annualSalary)}<br>
+            <hr style="border:0; border-top:1px solid rgba(255,115,0,0.2); margin:10px 0;">
+            
+            <b style="color:white">Hasil Pajak:</b><br>
+            • Per Tahun : <span style="color:${annualTax > 0 ? '#ff4444' : '#22c55e'}">Rp ${formatID(annualTax)}</span><br>
+            • Per Bulan : <b>Rp ${formatID(monthlyTax)}</b><br>
+            <br>
+            <small style="color:#888;">
+                ${annualTax <= 0 ? 'Status: <b>NIHIL</b> (Bebas Pajak).' : 'Estimasi potongan PPh 21 Anda.'}
+            </small>
+        </div>`;
+}
+
+function calculateSawitPro() {
+    const size = parseFloat(document.getElementById('landSize').value) || 0;
+    const yieldHa = parseFloat(document.getElementById('yieldPerHa').value) || 0;
+    const sortasi = parseFloat(document.getElementById('sortasi').value) || 0;
+    const priceTBS = parseFloat(document.getElementById('pricePerKg').value) || 0;
+    
+    const dosis = parseFloat(document.getElementById('dosisPerPokok').value) || 0;
+    const priceMat = parseFloat(document.getElementById('priceMaterial').value.replace(/\./g, "")) || 0;
+    const upahP = parseFloat(document.getElementById('upahPerPokok').value) || 0;
+    
+    const resultDiv = document.getElementById('sawitResult');
+
+    if (size <= 0 || yieldHa <= 0 || priceTBS <= 0) {
+        resultDiv.innerHTML = '<span style="color:#ff4444">Lengkapi data lahan, hasil, dan harga TBS!</span>';
+        resultDiv.style.display = 'block';
+        return;
+    }
+
+    const formatID = (n) => new Intl.NumberFormat('id-ID').format(Math.ceil(n));
+
+    // 1. Perhitungan Populasi & Perawatan
+    const totalTrees = Math.ceil(size * 140);
+    const totalMaterialNeeded = totalTrees * dosis; // Total Kg/Liter pupuk/racun
+    const costMaterial = totalMaterialNeeded * priceMat; // Total harga beli pupuk
+    const totalUpahPruning = totalTrees * upahP; // Total bayar tukang beroneng
+    const totalOperationalCost = costMaterial + totalUpahPruning;
+
+    // 2. Perhitungan Panen (Setelah Sortasi)
+    const grossWeight = (size * yieldHa) * 1000;
+    const sortAmount = (grossWeight * sortasi) / 100;
+    const netWeight = grossWeight - sortAmount;
+    const grossMoney = netWeight * priceTBS;
+
+    // 3. Profit Akhir
+    const finalProfit = grossMoney - totalOperationalCost;
+
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `
+        <div style="border-left: 3px solid orange; padding-left: 12px; font-family: monospace; font-size: 13px;">
+            <b style="color:orange">[ ESTIMASI LOGISTIK ]</b><br>
+            • Jml Pokok : ${totalTrees} Batang<br>
+            • Butuh Pupuk/Racun : <b>${totalMaterialNeeded.toFixed(1)} Kg/L</b><br>
+            • Biaya Material : Rp ${formatID(costMaterial)}<br>
+            • Biaya Beroneng : Rp ${formatID(totalUpahPruning)}<br>
+            <hr style="border:0; border-top:1px solid rgba(255,115,0,0.1); margin:8px 0;">
+            
+            <b style="color:orange">[ HASIL PABRIK ]</b><br>
+            • Berat Bersih : <b>${formatID(netWeight)} Kg</b><br>
+            • Uang Kotor   : Rp ${formatID(grossMoney)}<br>
+            <hr style="border:0; border-top:1px solid rgba(255,115,0,0.1); margin:8px 0;">
+            
+            <b style="color:white">PROFIT BERSIH (NET):</b><br>
+            <span style="color:#22c55e; font-size:18px; font-weight:bold;">Rp ${formatID(finalProfit)}</span><br>
+            <small style="color:#888;">*Sudah dipotong biaya logistik & upah.</small>
+        </div>`;
+}
+
+// Memberi saran tapi tidak memaksa isi
+// Memberi saran jumlah pohon berdasarkan luas lahan
+function suggestTreeCount(input) {
+    const size = parseFloat(input.value) || 0;
+    const suggestion = Math.ceil(size * 140); // Standar 140 pokok/ha
+    document.getElementById('treeHint').innerHTML = `Saran standar: <span style="color:orange">${suggestion}</span> Pokok`;
+    
+    // Beri placeholder di input manual agar user ada gambaran
+    document.getElementById('manualTrees').placeholder = suggestion;
+}
+
+// Fungsi untuk memformat angka input menjadi Rupiah otomatis
+function formatRupiahInput(input) {
+    let value = input.value.replace(/[^0-9]/g, "");
+    if (value) {
+        input.value = new Intl.NumberFormat('id-ID').format(value);
+    }
+}
+
+// Memberi saran jumlah pohon berdasarkan luas lahan (standar 140/ha)
+function suggestTreeCount(input) {
+    const size = parseFloat(input.value) || 0;
+    const suggestion = Math.ceil(size * 140);
+    document.getElementById('treeHint').innerHTML = `Saran standar: <span style="color:orange">${suggestion}</span> Pokok`;
+    document.getElementById('manualTrees').placeholder = suggestion;
+}
+
+function calculateSawitSimple() {
+    // Ambil Data
+    const totalTrees = parseInt(document.getElementById('manualTrees').value) || 0;
+    const kotorKg = parseFloat(document.getElementById('totalHarvestKg').value) || 0;
+    const sortasi = parseFloat(document.getElementById('sortasi').value) || 0;
+    const priceTBS = parseFloat(document.getElementById('priceTBS').value) || 0;
+    
+    const dosis = parseFloat(document.getElementById('dosisPerPokok').value) || 0;
+    const priceMat = parseFloat(document.getElementById('priceMaterial').value.replace(/\./g, "")) || 0;
+    const upahP = parseFloat(document.getElementById('upahPerPokok').value) || 0;
+    
+    const resultDiv = document.getElementById('sawitResult');
+
+    if (kotorKg <= 0 || priceTBS <= 0) {
+        resultDiv.innerHTML = '<span style="color:#ff4444">Isi Total Panen dan Harga TBS!</span>';
+        resultDiv.style.display = 'block';
+        return;
+    }
+
+    // 1. Hitung Berat Bersih
+    const potonganKg = (kotorKg * sortasi) / 100;
+    const bersihKg = kotorKg - potonganKg;
+    const uangKotor = bersihKg * priceTBS;
+
+    // 2. Hitung Modal (Berdasarkan jumlah pokok manual)
+    const modalPupuk = totalTrees * dosis * priceMat;
+    const modalUpah = totalTrees * upahP;
+    const totalModal = modalPupuk + modalUpah;
+
+    // 3. Profit Akhir
+    const profitBersih = uangKotor - totalModal;
+
+    const formatID = (n) => new Intl.NumberFormat('id-ID').format(Math.ceil(n));
+
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `
+        <div style=" padding-left: 12px; font-family: monospace; font-size: 13px;">
+            <b style="color:orange">[ RINGKASAN PANEN ]</b><br>
+            • Berat Kotor : ${formatID(kotorKg)} Kg<br>
+            • Potongan (${sortasi}%): -${formatID(potonganKg)} Kg<br>
+            • <b>Berat Bersih: ${formatID(bersihKg)} Kg</b><br>
+            <hr style="border:0; border-top:1px solid rgba(255,115,0,0.1); margin:8px 0;">
+            
+            <b style="color:orange">[ RINCIAN MODAL ]</b><br>
+            • Pupuk (${totalTrees} pkk): Rp ${formatID(modalPupuk)}<br>
+            • Upah (${totalTrees} pkk): Rp ${formatID(modalUpah)}<br>
+            <hr style="border:0; border-top:1px solid rgba(255,115,0,0.1); margin:8px 0;">
+            
+            <b style="color:white">HASIL BERSIH (PROFIT):</b><br>
+            Uang Masuk : Rp ${formatID(uangKotor)}<br>
+            <span style="color:#22c55e; font-size:18px; font-weight:bold;">SISA: Rp ${formatID(profitBersih)}</span>
+        </div>`;
+}
+
+function calculateBizProfit() {
+    const rev = parseFloat(document.getElementById('bizRevenue').value.replace(/\./g, "")) || 0;
+    const cogs = parseFloat(document.getElementById('bizCogs').value.replace(/\./g, "")) || 0;
+    const exp = parseFloat(document.getElementById('bizExpense').value.replace(/\./g, "")) || 0;
+    const resultDiv = document.getElementById('bizResult');
+
+    if (rev <= 0) {
+        resultDiv.innerHTML = '<span style="color:red">Masukkan nilai penjualan!</span>';
+        resultDiv.style.display = 'block';
+        return;
+    }
+
+    const totalCost = cogs + exp;
+    const netProfit = rev - totalCost;
+    const margin = (netProfit / rev) * 100;
+    
+    const formatID = (n) => new Intl.NumberFormat('id-ID').format(Math.ceil(n));
+
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `
+        <div style=" padding-left: 10px; font-family: monospace;">
+            <b style="color:orange">[ BUSINESS REPORT ]</b><br>
+            Omzet Bersih : Rp ${formatID(rev)}<br>
+            Total Biaya  : Rp ${formatID(totalCost)}<br>
+            <hr style="border:0; border-top:1px solid rgba(255,115,0,0.2); margin:10px 0;">
+            
+            <b style="color:white">LABA BERSIH:</b><br>
+            <span style="color:${netProfit > 0 ? '#22c55e' : '#ff4444'}; font-size:18px;">
+                Rp ${formatID(netProfit)}
+            </span><br>
+            Margin Untung : <b>${margin.toFixed(1)}%</b><br>
+            <br>
+            <small style="color:#888;">
+                ${margin < 20 ? '*Margin rendah, cek efisiensi biaya!' : '*Margin sehat, lanjutkan!'}
+            </small>
+        </div>
+    `;
+}
+
+
+
+
+
+
+
 
 
 
