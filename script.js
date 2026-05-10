@@ -321,85 +321,278 @@ if (/\d/.test(hostname)) {
 }
 
 // 
+// CORS Proxy — agar fetch ke API eksternal tidak diblokir browser
+const CORS_PROXY = 'https://corsproxy.io/?url=';
+
 async function runRecon() {
     const type = document.getElementById('reconType').value;
     const input = document.getElementById('reconInput').value.trim();
     const res = document.getElementById('reconResult');
 
     if (!input) {
-        res.innerHTML = '<span style="color:#ff4444">Silakan masukkan data!</span>';
+        res.innerHTML = '<span style="color:#ff4444">⚠️ Silakan masukkan data!</span>';
         res.style.display = 'block';
         return;
     }
 
     res.style.display = 'block';
-    res.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Connecting to Cyber Database...';
+    res.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
 
     try {
         if (type === 'hash') {
-            // Menggunakan API MD5Online (Contoh Lookup)
-            // Karena banyak API Hash butuh Key, kita arahkan ke DB Terbesar
-            res.innerHTML = `
-                <div style="border-left: 3px solid #a855f7; padding-left: 10px;">
-                    <b style="color:#a855f7">[ HASH LOOKUP ]</b><br>
-                    Target: ${input}<br>
-                    <a href="https://md5decrypt.net" target="_blank" class="ptes-link" style="margin-top:10px; display:inline-block;">
-                        <i class="fa-solid fa-magnifying-glass"></i> Check on MD5Decrypt DB
-                    </a>
-                </div>`;
-        } 
-        
-        else if (type === 'revip') {
-            // Menggunakan API HackerTarget (Sangat Akurat untuk IP/Domain)
-            const response = await fetch(`https://hackertarget.com{input}`);
-            const data = await response.text();
-            
-            res.innerHTML = `
-                <div style="border-left: 3px solid #a855f7; padding-left: 10px;">
-                    <b style="color:#a855f7">[ REVERSE IP RESULT ]</b><br>
-                    <pre style="font-size:10px; color:#bbb; background:#111; padding:10px; border-radius:5px; margin-top:5px; max-height:200px; overflow-y:auto;">${data}</pre>
-                </div>`;
+            await runHashLookup(input, res);
+        } else if (type === 'revip') {
+            await runReverseIP(input, res);
+        } else if (type === 'cms') {
+            await runCMSDetect(input, res);
+        } else if (type === 'subdomain') {
+            await runSubdomainFinder(input, res);
         }
-
-        else if (type === 'cms') {
-            // Menggunakan API WhatCMS (Membutuhkan API Key jika ingin JSON)
-            // Untuk versi gratis tanpa key, kita arahkan ke link analisis cepat
-            res.innerHTML = `
-                <div style="border-left: 3px solid #a855f7; padding-left: 10px;">
-                    <b style="color:#a855f7">[ CMS DETECTOR ]</b><br>
-                    Target: ${input}<br><br>
-                    <a href="https://whatcms.org{input}" target="_blank" class="ptes-link">
-                        <i class="fa-solid fa-microscope"></i> Analyze with WhatCMS
-                    </a>
-                </div>`;
-        }
-        // ... di dalam fungsi runRecon() ...
-else if (type === 'subdomain') {
-    const target = input.replace(/^(https?:\/\/)/, "").replace(/\/$/, "");
-    
-    res.style.display = 'block';
-    res.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Scanning Subdomains...';
-
-    try {
-        // Menggunakan API HackerTarget HostSearch
-        const response = await fetch(`https://hackertarget.com{target}`);
-        const data = await response.text();
-
-        res.innerHTML = `
-            <div style="border-left: 3px solid #a855f7; padding-left: 10px;">
-                <b style="color:#a855f7">[ SUBDOMAIN ENUMERATION ]</b><br>
-                Target: <b>${target}</b><br>
-                <pre style="font-size:10px; color:#bbb; background:#111; padding:10px; border-radius:5px; margin-top:5px; max-height:250px; overflow-y:auto; border: 1px solid #333;">${data}</pre>
-                <small style="color:#888; margin-top:5px; display:block;">*Data based on public DNS records.</small>
-            </div>`;
     } catch (error) {
-        res.innerHTML = '<span style="color:#ff4444">Error: Gagal mengambil data. Cek koneksi atau domain.</span>';
+        res.innerHTML = `<span style="color:#ff4444">❌ Error: ${error.message || 'Gagal terhubung ke API'}</span>`;
     }
 }
 
-    } catch (error) {
-        res.innerHTML = '<span style="color:#ff4444">Error: Koneksi API Gagal atau Terblokir CORS.</span>';
+// ─── 1. HASH LOOKUP ───────────────────────────────────────────
+async function runHashLookup(input, res) {
+    const hash = input.trim();
+    
+    // Validasi format hash
+    const isMD5 = /^[a-f0-9]{32}$/i.test(hash);
+    const isSHA1 = /^[a-f0-9]{40}$/i.test(hash);
+    const isSHA256 = /^[a-f0-9]{64}$/i.test(hash);
+
+    if (!isMD5 && !isSHA1 && !isSHA256) {
+        res.innerHTML = `
+            <div style="border-left: 3px solid #f59e0b; padding-left: 10px;">
+                <b style="color:#f59e0b">⚠️ FORMAT HASH TIDAK DIKENALI</b><br>
+                Format yang didukung:<br>
+                • MD5 — 32 karakter hex<br>
+                • SHA1 — 40 karakter hex<br>
+                • SHA256 — 64 karakter hex<br>
+                <small style="color:#888;">Contoh MD5: 5d41402abc4b2a76b9719d911017c592</small>
+            </div>`;
+        return;
     }
+
+    let hashType = 'md5';
+    if (isSHA1) hashType = 'sha1';
+    if (isSHA256) hashType = 'sha256';
+
+    res.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mencari di database hash...';
+
+    try {
+        // Coba pake API md5decrypt.net via CORS proxy
+        const apiUrl = `${CORS_PROXY}${encodeURIComponent(
+            `https://md5decrypt.net/Api/api.php?hash=${hash}&hash_type=${hashType}&code=`
+        )}`;
+        
+        const response = await fetch(apiUrl);
+        const data = await response.text();
+        
+        // MD5Decrypt returns "NOT FOUND" atau string kosong kalau gak ketemu
+        const cleaned = data.trim();
+        const found = cleaned && cleaned !== 'NOT FOUND' && cleaned.length > 0 && cleaned !== hash;
+
+        if (found) {
+            res.innerHTML = `
+                <div style="border-left: 3px solid #22c55e; padding-left: 10px;">
+                    <b style="color:#22c55e">✅ HASH DECRYPTED</b><br>
+                    <table style="width:100%; font-size:13px; margin-top:5px;">
+                        <tr><td style="color:#888;">Type:</td><td><b>${hashType.toUpperCase()}</b></td></tr>
+                        <tr><td style="color:#888;">Hash:</td><td style="font-family:monospace; font-size:11px; word-break:break-all;">${hash}</td></tr>
+                        <tr><td style="color:#888;">Result:</td><td><b style="color:#a855f7;">${cleaned}</b></td></tr>
+                    </table>
+                </div>`;
+        } else {
+            // Fallback — redirect ke aggregator
+            res.innerHTML = `
+                <div style="border-left: 3px solid #f59e0b; padding-left: 10px;">
+                    <b style="color:#f59e0b">🔍 HASH TIDAK DITEMUKAN di database utama</b><br>
+                    Target: <code style="font-size:11px;">${hash}</code><br>
+                    <small style="color:#888;">Coba cek manual di situs berikut:</small><br><br>
+                    <a href="https://md5decrypt.net/en/#${hash}" target="_blank" class="ptes-link" style="display:inline-block; margin-right:8px;">
+                        <i class="fa-solid fa-magnifying-glass"></i> MD5Decrypt
+                    </a>
+                    <a href="https://crackstation.net/" target="_blank" class="ptes-link" style="display:inline-block; margin-right:8px;">
+                        <i class="fa-solid fa-database"></i> CrackStation
+                    </a>
+                    <a href="https://hashes.org/search.php?q=${hash}" target="_blank" class="ptes-link" style="display:inline-block;">
+                        <i class="fa-solid fa-search"></i> Hashes.org
+                    </a>
+                </div>`;
+        }
+    } catch (e) {
+        // Fallback jika API gagal
+        res.innerHTML = `
+            <div style="border-left: 3px solid #f59e0b; padding-left: 10px;">
+                <b style="color:#f59e0b">🔍 HASH LOOKUP</b><br>
+                Target: <code style="font-size:11px;">${hash}</code><br>
+                <small style="color:#888;">Gagal terkoneksi ke database. Coba manual:</small><br><br>
+                <a href="https://md5decrypt.net/en/#${hash}" target="_blank" class="ptes-link">
+                    <i class="fa-solid fa-magnifying-glass"></i> Cek di MD5Decrypt
+                </a>
+            </div>`;
+    }
+}
+
+// ─── 2. REVERSE IP LOOKUP ────────────────────────────────────
+async function runReverseIP(input, res) {
+    // Bersihkan input — ambil domain/IP saja
+    let target = input.replace(/^(https?:\/\/)/, '').replace(/\/.*$/, '').trim();
+    
+    res.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Reverse IP lookup...';
+    
+    const apiUrl = `${CORS_PROXY}${encodeURIComponent(
+        `https://api.hackertarget.com/reverseiplookup/?q=${target}`
+    )}`;
+    
+    const response = await fetch(apiUrl);
+    const data = await response.text();
+
+    // Parse hasil — API return plaintext, baris pertama bisa "API count exceeded" atau error
+    if (data.includes('error') || data.includes('API count') || data.includes('invalid')) {
+        // Fallback: tampilkan link
+        res.innerHTML = `
+            <div style="border-left: 3px solid #f59e0b; padding-left: 10px;">
+                <b style="color:#f59e0b">⚠️ API RATE LIMIT / ERROR</b><br>
+                <small>HackerTarget free: 20 query/hari. Coba manual:</small><br><br>
+                <a href="https://hackertarget.com/reverse-ip-lookup/?q=${target}" target="_blank" class="ptes-link">
+                    <i class="fa-solid fa-globe"></i> Buka HackerTarget Reverse IP
+                </a>
+            </div>`;
+        return;
+    }
+
+    const lines = data.trim().split('\n').filter(l => l.trim());
+    
+    if (lines.length === 0) {
+        res.innerHTML = '<span style="color:#f59e0b">Tidak ada domain ditemukan untuk IP ini.</span>';
+        return;
+    }
+
+    res.innerHTML = `
+        <div style="border-left: 3px solid #a855f7; padding-left: 10px;">
+            <b style="color:#a855f7">🌐 REVERSE IP RESULT</b><br>
+            Target: <b>${target}</b> &nbsp;|&nbsp; <small style="color:#888;">${lines.length} domain ditemukan</small>
+            <pre style="font-size:11px; color:#bbb; background:#0a0a0a; padding:12px; border-radius:6px; margin-top:8px; max-height:250px; overflow-y:auto; border:1px solid #222;">${lines.join('\n')}</pre>
+            <small style="color:#666;">Sumber: HackerTarget API</small>
+        </div>`;
+}
+
+// ─── 3. CMS DETECTOR ─────────────────────────────────────────
+async function runCMSDetect(input, res) {
+    let target = input.replace(/^(https?:\/\/)/, '').replace(/\/.*$/, '').trim();
+    // Pastikan ada protokol untuk redirect ke whatcms
+    const fullUrl = input.startsWith('http') ? input : `https://${target}`;
+    
+    res.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mendeteksi CMS...';
+
+    // WhatCMS requires API key untuk API endpoint-nya,
+    // jadi kita pakai link redirect ke WhatCMS + fallback deteksi via HTTP headers
+    try {
+        // Coba deteksi via response headers (sederhana)
+        const apiUrl = `${CORS_PROXY}${encodeURIComponent(fullUrl)}`;
+        const response = await fetch(apiUrl, { method: 'HEAD' });
+        const server = response.headers.get('server') || '-';
+        const poweredBy = response.headers.get('x-powered-by') || '-';
+        const cfRails = response.headers.get('x-rack-cache') || '-';
+        const cfFramework = response.headers.get('x-frame-options') ? 'Ada' : '-';
+        const contentType = response.headers.get('content-type') || '-';
+        
+        // Tebak CMS dari header
+        let cmsGuess = 'Tidak terdeteksi dari header';
+        if (poweredBy.includes('PHP')) cmsGuess = 'Kemungkinan WordPress / PHP-based CMS';
+        if (server.includes('nginx') && poweredBy.includes('Express')) cmsGuess = 'Node.js (Express)';
+        if (server.includes('cloudflare')) cmsGuess = 'Cloudflare Proxy (CMS tidak terlihat)';
+        
+        res.innerHTML = `
+            <div style="border-left: 3px solid #a855f7; padding-left: 10px;">
+                <b style="color:#a855f7">🔎 CMS DETECTION</b><br>
+                Target: <b>${target}</b><br><br>
+                <table style="width:100%; font-size:12px;">
+                    <tr><td style="color:#888;">Server:</td><td>${server}</td></tr>
+                    <tr><td style="color:#888;">X-Powered-By:</td><td>${poweredBy}</td></tr>
+                </table>
+                <div style="background:#0a0a0a; padding:8px; border-radius:4px; margin-top:8px; font-size:12px; color:#ccc;">
+                    💡 ${cmsGuess}
+                </div>
+                <a href="https://whatcms.org/?s=${fullUrl}" target="_blank" class="ptes-link" style="margin-top:10px; display:inline-block;">
+                    <i class="fa-solid fa-microscope"></i> Analisis Lengkap di WhatCMS
+                </a>
+            </div>`;
+    } catch (e) {
+        res.innerHTML = `
+            <div style="border-left: 3px solid #f59e0b; padding-left: 10px;">
+                <b style="color:#f59e0b">🔎 CMS DETECTION</b><br>
+                Target: ${target}<br><br>
+                <a href="https://whatcms.org/?s=${fullUrl}" target="_blank" class="ptes-link">
+                    <i class="fa-solid fa-microscope"></i> Analisis dengan WhatCMS
+                </a>
+            </div>`;
+    }
+}
+
+// ─── 4. SUBDOMAIN FINDER ─────────────────────────────────────
+async function runSubdomainFinder(input, res) {
+    let target = input.replace(/^(https?:\/\/)/, '').replace(/\/.*$/, '').trim();
+    
+    res.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Scanning subdomains via DNS records...';
+    
+    const apiUrl = `${CORS_PROXY}${encodeURIComponent(
+        `https://api.hackertarget.com/hostsearch/?q=${target}`
+    )}`;
+    
+    const response = await fetch(apiUrl);
+    const data = await response.text();
+
+    if (data.includes('error') || data.includes('API count') || data.includes('invalid')) {
+        res.innerHTML = `
+            <div style="border-left: 3px solid #f59e0b; padding-left: 10px;">
+                <b style="color:#f59e0b">⚠️ API RATE LIMIT</b><br>
+                <small>HackerTarget free: 20 query/hari. Coba manual:</small><br><br>
+                <a href="https://hackertarget.com/find-dns-host-records/?q=${target}" target="_blank" class="ptes-link">
+                    <i class="fa-solid fa-globe"></i> Buka HackerTarget HostSearch
+                </a>
+            </div>`;
+        return;
+    }
+
+    const lines = data.trim().split('\n').filter(l => l.trim());
+    
+    if (lines.length === 0) {
+        res.innerHTML = '<span style="color:#f59e0b">Tidak ada subdomain ditemukan.</span>';
+        return;
+    }
+
+    // Format: "domain,IP" — pisahkan
+    const tableRows = lines.map(line => {
+        const parts = line.split(',');
+        if (parts.length === 2) {
+            return `<tr><td style="font-family:monospace; font-size:11px; color:#a855f7;">${parts[0]}</td><td style="font-family:monospace; font-size:11px; color:#888;">${parts[1]}</td></tr>`;
+        }
+        return `<tr><td colspan="2" style="font-size:11px;">${line}</td></tr>`;
+    }).join('');
+
+    res.innerHTML = `
+        <div style="border-left: 3px solid #a855f7; padding-left: 10px;">
+            <b style="color:#a855f7">🔍 SUBDOMAIN ENUMERATION</b><br>
+            Target: <b>${target}</b> &nbsp;|&nbsp; <small style="color:#888;">${lines.length} record ditemukan</small>
+            <div style="background:#0a0a0a; padding:10px; border-radius:6px; margin-top:8px; max-height:300px; overflow-y:auto; border:1px solid #222;">
+                <table style="width:100%; font-size:12px;">
+                    <thead>
+                        <tr style="border-bottom:1px solid #333;">
+                            <th style="text-align:left; color:#888; padding-bottom:5px;">Subdomain</th>
+                            <th style="text-align:left; color:#888; padding-bottom:5px;">IP Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableRows}
+                    </tbody>
+                </table>
+            </div>
+            <small style="color:#666; margin-top:5px; display:block;">📡 Data berdasarkan public DNS records (HackerTarget)</small>
+        </div>`;
 }
 
 
