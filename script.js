@@ -874,6 +874,68 @@ function calculateBizProfit() {
     `;
 }
 
+function analyzeCycle() {
+    const lastDateInput = document.getElementById('lastPeriod').value;
+    const duration = parseInt(document.getElementById('periodDuration').value) || 7;
+    const cycle = parseInt(document.getElementById('cycleLength').value) || 28;
+    const resultDiv = document.getElementById('cycleResult');
+
+    if (!lastDateInput) {
+        resultDiv.innerHTML = '<span style="color:#ff4444">Pilih tanggal haid terakhir!</span>';
+        resultDiv.style.display = 'block';
+        return;
+    }
+
+    const lastDate = new Date(lastDateInput);
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    // --- LOGIKA TANGGAL ---
+    const nextPeriod = new Date(lastDate);
+    nextPeriod.setDate(lastDate.getDate() + cycle);
+    const ovulationDay = new Date(nextPeriod);
+    ovulationDay.setDate(nextPeriod.getDate() - 14);
+    const fertileStart = new Date(ovulationDay); fertileStart.setDate(ovulationDay.getDate() - 5);
+    const fertileEnd = new Date(ovulationDay); fertileEnd.setDate(ovulationDay.getDate() + 1);
+
+    // --- LOGIKA GEJALA ---
+    const selectedSymptoms = Array.from(document.querySelectorAll('input[name="symptom"]:checked')).map(el => el.value);
+    let saranGejala = "";
+
+    if (selectedSymptoms.length > 0) {
+        saranGejala = `<b style="color:orange">[ ANALISIS GEJALA ]</b><br>`;
+        selectedSymptoms.forEach(s => {
+            if (s === "Kram Perut") saranGejala += `• <b>Kram:</b> Gunakan kompres hangat & air jahe.<br>`;
+            if (s === "Jerawat") saranGejala += `• <b>Jerawat:</b> Jaga kebersihan wajah, kurangi susu & gula.<br>`;
+            if (s === "Pusing") saranGejala += `• <b>Pusing:</b> Cukup istirahat & kurangi cahaya terang.<br>`;
+            if (s === "Mood Swings") saranGejala += `• <b>Mood:</b> Meditasi atau jalan santai, kurangi kafein.<br>`;
+            // if (s === "Payudara Sensitif") saranGejala += `• <b>Sensitif:</b> Gunakan bra yang nyaman/longgar.<br>`;
+        });
+        saranGejala += `<hr style="border:0; border-top:1px solid rgba(255,115,0,0.2); margin:10px 0;">`;
+    }
+
+    const options = { day: 'numeric', month: 'long' };
+    const formatDate = (date) => date.toLocaleDateString('id-ID', options);
+
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `
+        <div style="border-left: 3px solid orange; padding-left: 12px; font-family: monospace; font-size: 13px;">
+            <b style="color:orange">[ ESTIMASI SIKLUS ]</b><br>
+            • Haid Berikutnya : <b style="color:#ff4444">${formatDate(nextPeriod)}</b><br>
+            • Puncak Subur   : <b style="color:#22c55e">${formatDate(ovulationDay)}</b><br>
+            <small style="color:#888;">Rentang Subur: ${formatDate(fertileStart)} - ${formatDate(fertileEnd)}</small>
+            
+            <hr style="border:0; border-top:1px solid rgba(255,115,0,0.2); margin:10px 0;">
+            
+            ${saranGejala}
+            
+            <b style="color:orange">[ TIPS SISTEM ]</b><br>
+            <small style="color:#ddd;">Siklus Anda terdeteksi ${cycle} hari. Catat perubahan gejala setiap bulan untuk membantu diagnosa medis jika diperlukan.</small>
+        </div>`;
+}
+
+
+
 
 
 

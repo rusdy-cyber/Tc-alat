@@ -804,6 +804,41 @@
         
             <div id="bizResult" class="result-box"></div>
         </div>
+        <!--  -->
+        <div class="tool-card">
+          <i class="fa-solid fa-calendar-heart tool-icon"></i>
+          <h3 class="tool-title">Menstrual Tracker (Pro)</h3>
+      
+          <label style="color:orange; font-size:12px;">MULAI HAID TERAKHIR:</label>
+          <input type="date" id="lastPeriod" class="tool-input">
+          
+          <div class="flex gap-2 mt-3">
+              <div class="flex-1">
+                  <label style="color:orange; font-size:11px;">LAMA HAID (HARI):</label>
+                  <input type="number" id="periodDuration" placeholder="5-7" class="tool-input">
+              </div>
+              <div class="flex-1">
+                  <label style="color:orange; font-size:11px;">SIKLUS (HARI):</label>
+                  <input type="number" id="cycleLength" placeholder="21-35" class="tool-input">
+              </div>
+          </div>
+      
+          <!-- FITUR CATATAN GEJALA -->
+          <label style="color:orange; font-size:12px; display:block; margin-top:15px;">GEJALA YANG DIRASAKAN:</label>
+          <div class="flex-column gap-1 mt-1" style="font-size: 13px; color: #ddd;">
+              <label><input type="checkbox" name="symptom" value="Kram Perut"> Kram Perut</label>
+              <label><input type="checkbox" name="symptom" value="Jerawat"> Muncul Jerawat</label>
+              <label><input type="checkbox" name="symptom" value="Pusing"> Pusing / Migrain</label>
+              <label><input type="checkbox" name="symptom" value="Mood Swings"> Mood Tidak Stabil</label>
+              <!-- <label><input type="checkbox" name="symptom" value="Payudara Sensitif"> Payudara Sensitif</label> -->
+          </div>
+      
+          <button onclick="analyzeCycle()" class="tool-btn mt-3">Analyze Cycle</button>
+      
+          <div id="cycleResult" class="result-box"></div>
+      </div>
+      
+<!--  -->
         
         </div>
       </div>
