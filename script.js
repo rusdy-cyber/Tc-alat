@@ -1,40 +1,4 @@
-// --- 1. SUBNET CALCULATOR (FIXED BITWISE) ---
-// function calculateSubnet() {
-//     const inputVal = document.getElementById('ipInput').value.trim();
-//     const resultDiv = document.getElementById('subnetResult');
-//     if (!inputVal.includes('/')) {
-//         resultDiv.innerHTML = '<span style="color:red">Format salah! Contoh: 192.168.1.0/24</span>';
-//         resultDiv.style.display = 'block';
-//         return;
-//     }
-//     const [ip, cidrStr] = inputVal.split('/');
-//     const cidr = parseInt(cidrStr);
-//     const ipParts = ip.split('.').map(Number);
-
-//     if (ipParts.length !== 4 || isNaN(cidr)) {
-//         resultDiv.innerHTML = '<span style="color:red">IP/CIDR tidak valid</span>';
-//         resultDiv.style.display = 'block';
-//         return;
-//     }
-
-//     // Perbaikan: Ambil indeks array satu per satu
-//     const ipInt = ((ipParts[0] << 24) | (ipParts[1] << 16) | (ipParts[2] << 8) | ipParts[3]) >>> 0;
-//     const mask = cidr === 0 ? 0 : (0xFFFFFFFF << (32 - cidr)) >>> 0;
-//     const netInt = (ipInt & mask) >>> 0;
-//     const broadInt = (netInt | (~mask)) >>> 0;
-
-//     const intToIp = (int) => [(int >>> 24) & 255, (int >>> 16) & 255, (int >>> 8) & 255, int & 255].join('.');
-
-//     resultDiv.style.display = 'block';
-//     resultDiv.innerHTML = `
-//         <div style="border-left:3px solid orange; padding-left:10px; font-family:monospace;">
-//             <b style="color:orange">[RESULT]</b><br>
-//             Net ID: ${intToIp(netInt)}<br>
-//             Broadcast: ${intToIp(broadInt)}<br>
-//             Hosts: ${cidr >= 31 ? 0 : Math.pow(2, 32 - cidr) - 2}
-//         </div>`;
-// }
-
+// kalkulator subnet
 function calculateSubnet() {
     const inputVal = document.getElementById('ipInput').value.trim();
     const resultDiv = document.getElementById('subnetResult');
@@ -98,6 +62,7 @@ function calculateSubnet() {
     `;
 }
 
+// reset tools
 function resetTool(inputId, resultId) {
     const input = document.getElementById(inputId);
     const result = document.getElementById(resultId);
@@ -117,7 +82,7 @@ function resetTool(inputId, resultId) {
 
 
 
-// --- 2. PERCENTAGE CALCULATOR (FIXED DISPLAY) ---
+// --- 2. PERCEn CALCULATOR (FIXED DISPLAY) ---
 function calculatePercentage() {
     const totalInput = document.getElementById('totalAmount');
     const percentInput = document.getElementById('percentValue');
@@ -165,6 +130,7 @@ function copyToClipboard(elementId) {
     });
 }
 
+// encode
 function encodeBase64() {
     const input = document.getElementById('encodeInput').value;
     const result = document.getElementById('encodeResult');
@@ -180,6 +146,7 @@ function encodeBase64() {
     }
 }
 
+// decode
 function decodeBase64() {
     const input = document.getElementById('encodeInput').value.trim();
     const result = document.getElementById('encodeResult');
@@ -195,6 +162,7 @@ function decodeBase64() {
     }
 }
 
+// sitation
 function generateCitation() {
     // 1. Ambil elemen input
     const author = document.getElementById('author').value.trim();
@@ -223,8 +191,7 @@ function generateCitation() {
     `;
 }
 
-
-
+// analisis url
 function analyzeURL() {
   // 1. Ambil input dan bersihkan spasi
   let input = document.getElementById('urlInput').value.trim();
@@ -353,6 +320,7 @@ if (/\d/.test(hostname)) {
   }
 }
 
+// target tabungan
 function calculateAdvancedSavings() {
   // 1. Ambil target uang (hapus titik format agar jadi angka murni)
   const targetRaw = document.getElementById('targetAmount').value.replace(/\./g, "");
@@ -412,6 +380,7 @@ function calculateAdvancedSavings() {
   `;
 }
 
+// convert mm ke km
 function calculateUnit() {
   const val = parseFloat(document.getElementById('unitValue').value);
   const type = document.getElementById('convertType').value;
@@ -445,6 +414,7 @@ function calculateUnit() {
   `;
 }
 
+// hitung pajak
 function calculateSalary() {
   const rawValue = document.getElementById('rawSalary').value.replace(/\./g, "");
   const salary = parseFloat(rawValue) || 0;
@@ -473,8 +443,7 @@ function calculateSalary() {
       </div>`;
 }
 
-
-
+// ohm kalkulator
 function solveOhm() {
   let v = parseFloat(document.getElementById('voltage').value);
   let i = parseFloat(document.getElementById('current').value);
@@ -517,81 +486,159 @@ window.onscroll = function() {
   }
 };
 
+// body goal
+// function analyzeFitness() {
+//   // 1. Ambil Data Input
+//   const age = parseInt(document.getElementById('fitAge').value);
+//   const weight = parseFloat(document.getElementById('fitWeight').value);
+//   const height = parseFloat(document.getElementById('fitHeight').value);
+//   const activity = parseFloat(document.getElementById('activity').value);
+//   const sex = document.querySelector('input[name="sex"]:checked').value;
+//   const resultDiv = document.getElementById('fitResult');
+
+//   // 2. Validasi Input
+//   if (!age || !weight || !height || isNaN(activity)) {
+//       resultDiv.innerHTML = '<span style="color:#ff4444">Lengkapi data umur, berat, dan tinggi!</span>';
+//       resultDiv.style.display = 'block';
+//       return;
+//   }
+
+//   // 3. Hitung Berat Badan Ideal (Rumus Broca)
+//   let ideal = (sex === 'male') ? (height - 100) * 0.9 : (height - 100) * 0.85;
+
+//   // 4. Hitung BMR (Mifflin-St Jeor) & TDEE
+//   let bmr = (10 * weight) + (6.25 * height) - (5 * age);
+//   bmr = (sex === 'male') ? bmr + 5 : bmr - 161;
+//   const tdee = bmr * activity;
+
+//   // 5. Logika Rekomendasi Otomatis & Olahraga
+//   let statusText = "";
+//   let colorAction = "";
+//   let targetCalorie = 0;
+//   let detailMessage = "";
+//   let infoOlahraga = "";
+//   const diff = weight - ideal;
+
+//   if (Math.abs(diff) <= 2) {
+//       statusText = "MAINTAIN (PERTAHANKAN)";
+//       colorAction = "#22c55e"; 
+//       targetCalorie = tdee;
+//       detailMessage = "Berat Anda sudah <b>Ideal</b>.";
+//       infoOlahraga = "Kombinasi Kardio & Beban seimbang untuk stamina.";
+//   } else if (weight > ideal) {
+//       statusText = "CUTTING (TURUNKAN BERAT)";
+//       colorAction = "#ff4444"; 
+//       targetCalorie = tdee - 500; 
+//       detailMessage = `Turunkan sekitar <b>${diff.toFixed(1)} kg</b>.`;
+//       infoOlahraga = "Fokus <b>Kardio</b> (Lari/Renang) & Beban repetisi tinggi.";
+//   } else {
+//       statusText = "BULKING (NAIKKAN BERAT)";
+//       colorAction = "#3498db"; 
+//       targetCalorie = tdee + 500; 
+//       detailMessage = `Naikkan sekitar <b>${Math.abs(diff).toFixed(1)} kg</b>.`;
+//       infoOlahraga = "Fokus <b>Latihan Beban (Gym)</b> & nutrisi tinggi protein.";
+//   }
+
+//   // 6. TAMPILKAN HASIL AKHIR (Sudah termasuk Rekomendasi & Link)
+//   resultDiv.style.display = 'block';
+//   resultDiv.innerHTML = `
+//       <div style=" padding-left: 12px; font-family: monospace;">
+//           <b style="color:orange">[ ANALISIS TUBUH ]</b><br>
+//           Target Ideal  : <b style="color:#22c55e">${ideal.toFixed(1)} kg</b><br>
+//           Status Rekom  : <b style="color:${colorAction}">${statusText}</b><br>
+//           Jatah Makan   : <b style="color:orange">${Math.round(targetCalorie)} kkal/hari</b>
+          
+//           <hr style="border:0; border-top:1px solid rgba(255,115,0,0.2); margin:10px 0;">
+          
+//           <b style="color:orange">[ REKOMENDASI ACTION ]</b><br>
+//           ${detailMessage}<br>
+//           <i class="fa-solid fa-dumbbell" style="color:orange"></i> ${infoOlahraga}
+          
+//           <br><br>
+//           <a href="https://who.int" 
+//              target="_blank" class="ptes-link" style="font-size:12px; padding: 8px 12px;">
+//               <i class="fa-solid fa-book-medical"></i> Dokumentasi Resmi WHO
+//           </a>
+//       </div>
+//   `;
+// }
 function analyzeFitness() {
-  // 1. Ambil Data Input
-  const age = parseInt(document.getElementById('fitAge').value);
-  const weight = parseFloat(document.getElementById('fitWeight').value);
-  const height = parseFloat(document.getElementById('fitHeight').value);
-  const activity = parseFloat(document.getElementById('activity').value);
-  const sex = document.querySelector('input[name="sex"]:checked').value;
-  const resultDiv = document.getElementById('fitResult');
+    const age = parseInt(document.getElementById('fitAge').value);
+    const weight = parseFloat(document.getElementById('fitWeight').value);
+    const height = parseFloat(document.getElementById('fitHeight').value);
+    const activity = parseFloat(document.getElementById('activity').value);
+    const sex = document.querySelector('input[name="sex"]:checked').value;
+    const resultDiv = document.getElementById('fitResult');
 
-  // 2. Validasi Input
-  if (!age || !weight || !height || isNaN(activity)) {
-      resultDiv.innerHTML = '<span style="color:#ff4444">Lengkapi data umur, berat, dan tinggi!</span>';
-      resultDiv.style.display = 'block';
-      return;
-  }
+    if (!age || !weight || !height || isNaN(activity)) {
+        resultDiv.innerHTML = '<span style="color:#ff4444">Lengkapi data umur, berat, dan tinggi!</span>';
+        resultDiv.style.display = 'block';
+        return;
+    }
 
-  // 3. Hitung Berat Badan Ideal (Rumus Broca)
-  let ideal = (sex === 'male') ? (height - 100) * 0.9 : (height - 100) * 0.85;
+    // 1. Hitung Berat Badan Ideal (Rumus Broca - Lebih akurat dari BMI)
+    let ideal = (sex === 'male') ? (height - 100) * 0.9 : (height - 100) * 0.85;
 
-  // 4. Hitung BMR (Mifflin-St Jeor) & TDEE
-  let bmr = (10 * weight) + (6.25 * height) - (5 * age);
-  bmr = (sex === 'male') ? bmr + 5 : bmr - 161;
-  const tdee = bmr * activity;
+    // 2. Hitung BMR (Mifflin-St Jeor) & TDEE (Total Kalori)
+    let bmr = (10 * weight) + (6.25 * height) - (5 * age);
+    bmr = (sex === 'male') ? bmr + 5 : bmr - 161;
+    const tdee = bmr * activity;
 
-  // 5. Logika Rekomendasi Otomatis & Olahraga
-  let statusText = "";
-  let colorAction = "";
-  let targetCalorie = 0;
-  let detailMessage = "";
-  let infoOlahraga = "";
-  const diff = weight - ideal;
+    // 3. Logika Rekomendasi Berdasarkan Selisih Berat
+    let statusText = "";
+    let colorAction = "";
+    let targetCalorie = 0;
+    let detailMessage = "";
+    let infoOlahraga = "";
+    const diff = weight - ideal;
 
-  if (Math.abs(diff) <= 2) {
-      statusText = "MAINTAIN (PERTAHANKAN)";
-      colorAction = "#22c55e"; 
-      targetCalorie = tdee;
-      detailMessage = "Berat Anda sudah <b>Ideal</b>.";
-      infoOlahraga = "Kombinasi Kardio & Beban seimbang untuk stamina.";
-  } else if (weight > ideal) {
-      statusText = "CUTTING (TURUNKAN BERAT)";
-      colorAction = "#ff4444"; 
-      targetCalorie = tdee - 500; 
-      detailMessage = `Turunkan sekitar <b>${diff.toFixed(1)} kg</b>.`;
-      infoOlahraga = "Fokus <b>Kardio</b> (Lari/Renang) & Beban repetisi tinggi.";
-  } else {
-      statusText = "BULKING (NAIKKAN BERAT)";
-      colorAction = "#3498db"; 
-      targetCalorie = tdee + 500; 
-      detailMessage = `Naikkan sekitar <b>${Math.abs(diff).toFixed(1)} kg</b>.`;
-      infoOlahraga = "Fokus <b>Latihan Beban (Gym)</b> & nutrisi tinggi protein.";
-  }
+    if (Math.abs(diff) <= 2) {
+        statusText = "MAINTAIN (PERTAHANKAN)";
+        colorAction = "#22c55e"; 
+        targetCalorie = tdee;
+        detailMessage = "Berat badan Anda sudah <b>Proporsional</b>.";
+        infoOlahraga = "Latihan beban & Kardio ringan untuk stamina.";
+    } else if (weight > ideal) {
+        statusText = "CUTTING (BAKAR LEMAK)";
+        colorAction = "#ff4444"; 
+        targetCalorie = tdee - 500; 
+        detailMessage = `Target: Turunkan <b>${diff.toFixed(1)} kg</b> agar ideal.`;
+        infoOlahraga = "Fokus <b>Kardio</b> & Latihan beban repetisi tinggi.";
+    } else {
+        statusText = "BULKING (NAIKKAN MASSA)";
+        colorAction = "#3498db"; 
+        targetCalorie = tdee + 500; 
+        detailMessage = `Target: Naikkan <b>${Math.abs(diff).toFixed(1)} kg</b> agar ideal.`;
+        infoOlahraga = "Fokus <b>Latihan Beban (Hypertrophy)</b> & Protein tinggi.";
+    }
 
-  // 6. TAMPILKAN HASIL AKHIR (Sudah termasuk Rekomendasi & Link)
-  resultDiv.style.display = 'block';
-  resultDiv.innerHTML = `
-      <div style=" padding-left: 12px; font-family: monospace;">
-          <b style="color:orange">[ ANALISIS TUBUH ]</b><br>
-          Target Ideal  : <b style="color:#22c55e">${ideal.toFixed(1)} kg</b><br>
-          Status Rekom  : <b style="color:${colorAction}">${statusText}</b><br>
-          Jatah Makan   : <b style="color:orange">${Math.round(targetCalorie)} kkal/hari</b>
-          
-          <hr style="border:0; border-top:1px solid rgba(255,115,0,0.2); margin:10px 0;">
-          
-          <b style="color:orange">[ REKOMENDASI ACTION ]</b><br>
-          ${detailMessage}<br>
-          <i class="fa-solid fa-dumbbell" style="color:orange"></i> ${infoOlahraga}
-          
-          <br><br>
-          <a href="https://who.int" 
-             target="_blank" class="ptes-link" style="font-size:12px; padding: 8px 12px;">
-              <i class="fa-solid fa-book-medical"></i> Dokumentasi Resmi WHO
-          </a>
-      </div>
-  `;
+    // 4. TAMPILKAN HASIL (Gaya Cyber)
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `
+        <div style=" padding-left: 12px; font-family: monospace; font-size: 13px;">
+            <b style="color:orange">[ ANALISIS FISIK ]</b><br>
+            Target Ideal  : <b style="color:#22c55e">${ideal.toFixed(1)} kg</b><br>
+            Status Rekom  : <b style="color:${colorAction}">${statusText}</b><br>
+            Batas BMR     : ${Math.round(bmr)} kkal (Energi dasar)<br>
+            
+            <hr style="border:0; border-top:1px solid rgba(255,115,0,0.2); margin:10px 0;">
+            
+            <b style="color:orange">[ REKOMENDASI ACTION ]</b><br>
+            ${detailMessage}<br>
+            Jatah Makan   : <b style="color:orange; font-size:16px;">${Math.round(targetCalorie)} kkal/hari</b><br>
+            <i class="fa-solid fa-dumbbell" style="color:orange"></i> ${infoOlahraga}
+            
+            <br><br>
+            <a href="https://who.int" 
+               target="_blank" class="ptes-link" style="font-size:11px; padding: 6px 10px;">
+                <i class="fa-solid fa-book-medical"></i> Panduan WHO
+            </a>
+        </div>
+    `;
 }
+
+
+// sipil
 function calculateConcrete() {
     const p = parseFloat(document.getElementById('conLength').value);
     const l = parseFloat(document.getElementById('conWidth').value);
@@ -610,7 +657,7 @@ function calculateConcrete() {
 
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = `
-        <div style="border-left: 3px solid orange; padding-left: 10px; font-family: monospace;">
+        <div style=" padding-left: 10px; font-family: monospace;">
             <b style="color:orange">[ CIVIL ANALYSIS ]</b><br>
             Volume Beton : <b>${volume.toFixed(2)} m³</b><br>
             Estimasi Semen: <b>${semen} Sak (50kg)</b><br>
@@ -618,7 +665,7 @@ function calculateConcrete() {
         </div>`;
 }
 
-
+// sipil
 function calculateSlope() {
     const rise = parseFloat(document.getElementById('rise').value);
     const run = parseFloat(document.getElementById('run').value);
@@ -635,12 +682,54 @@ function calculateSlope() {
 
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = `
-        <div style="border-left: 3px solid orange; padding-left: 10px; font-family: monospace;">
+        <div style=" padding-left: 10px; font-family: monospace;">
             <b style="color:orange">[ SLOPE INFO ]</b><br>
             Kemiringan (%) : <b>${percent.toFixed(2)}%</b><br>
             Sudut (Degree) : <b>${degree.toFixed(2)}°</b>
         </div>`;
 }
+// sipil
+// Fungsi untuk sembunyi/munculkan input sesuai pilihan
+function toggleInputs() {
+    const type = document.getElementById('shapeType').value;
+    document.getElementById('groupBalok').style.display = (type === 'balok') ? 'flex' : 'none';
+    document.getElementById('groupBulat').style.display = (type !== 'balok') ? 'flex' : 'none';
+}
+// sipil
+function calculateCivilVolume() {
+    const type = document.getElementById('shapeType').value;
+    const res = document.getElementById('civilVolResult');
+    let volume = 0;
+
+    if (type === 'balok') {
+        const p = parseFloat(document.getElementById('volP').value);
+        const l = parseFloat(document.getElementById('volL').value);
+        const t = parseFloat(document.getElementById('volT').value);
+        if (!p || !l || !t) return alert("Isi P, L, dan T!");
+        volume = p * l * t;
+    } else {
+        const r = parseFloat(document.getElementById('volR').value);
+        const t = parseFloat(document.getElementById('volTinggi').value);
+        if (!r || !t) return alert("Isi Jari-jari dan Tinggi!");
+        
+        if (type === 'tabung') {
+            volume = Math.PI * Math.pow(r, 2) * t;
+        } else if (type === 'kerucut') {
+            volume = (1/3) * Math.PI * Math.pow(r, 2) * t;
+        }
+    }
+
+    res.style.display = 'block';
+    res.innerHTML = `
+        <div style=" padding-left: 10px; font-family: monospace;">
+            <b style="color:orange">[ HASIL VOLUME ]</b><br>
+            Bentuk : ${type.toUpperCase()}<br>
+            Volume : <b style="color:#22c55e">${volume.toFixed(3)} m³</b><br>
+            <hr style="border:0; border-top:1px solid rgba(255,115,0,0.2); margin:10px 0;">
+            <small style="color:#888;">*Gunakan volume ini untuk estimasi material beton/pasir.</small>
+        </div>`;
+}
+
 
 // Fungsi untuk menampilkan konfirmasi teks gaji saat mengetik
 function updateMonthlyHint(input) {
@@ -681,7 +770,7 @@ function calculateSimpleTax() {
 
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = `
-        <div style="border-left: 3px solid orange; padding-left: 12px; font-family: monospace;">
+        <div style=" padding-left: 12px; font-family: monospace;">
             <b style="color:orange">[ RINCIAN KONFIRMASI ]</b><br>
             Input Gaji   : Rp ${formatID(monthlySalary)} / bln<br>
             Total 1 Tahun: Rp ${formatID(annualSalary)}<br>
@@ -697,6 +786,7 @@ function calculateSimpleTax() {
         </div>`;
 }
 
+// sawit manajemen
 function calculateSawitPro() {
     const size = parseFloat(document.getElementById('landSize').value) || 0;
     const yieldHa = parseFloat(document.getElementById('yieldPerHa').value) || 0;
@@ -735,7 +825,7 @@ function calculateSawitPro() {
 
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = `
-        <div style="border-left: 3px solid orange; padding-left: 12px; font-family: monospace; font-size: 13px;">
+        <div style=" padding-left: 12px; font-family: monospace; font-size: 13px;">
             <b style="color:orange">[ ESTIMASI LOGISTIK ]</b><br>
             • Jml Pokok : ${totalTrees} Batang<br>
             • Butuh Pupuk/Racun : <b>${totalMaterialNeeded.toFixed(1)} Kg/L</b><br>
@@ -753,7 +843,7 @@ function calculateSawitPro() {
             <small style="color:#888;">*Sudah dipotong biaya logistik & upah.</small>
         </div>`;
 }
-
+// sawit manajemen
 // Memberi saran tapi tidak memaksa isi
 // Memberi saran jumlah pohon berdasarkan luas lahan
 function suggestTreeCount(input) {
@@ -764,7 +854,7 @@ function suggestTreeCount(input) {
     // Beri placeholder di input manual agar user ada gambaran
     document.getElementById('manualTrees').placeholder = suggestion;
 }
-
+// sawit manajemen
 // Fungsi untuk memformat angka input menjadi Rupiah otomatis
 function formatRupiahInput(input) {
     let value = input.value.replace(/[^0-9]/g, "");
@@ -772,7 +862,7 @@ function formatRupiahInput(input) {
         input.value = new Intl.NumberFormat('id-ID').format(value);
     }
 }
-
+// sawit manajemen
 // Memberi saran jumlah pohon berdasarkan luas lahan (standar 140/ha)
 function suggestTreeCount(input) {
     const size = parseFloat(input.value) || 0;
@@ -780,7 +870,7 @@ function suggestTreeCount(input) {
     document.getElementById('treeHint').innerHTML = `Saran standar: <span style="color:orange">${suggestion}</span> Pokok`;
     document.getElementById('manualTrees').placeholder = suggestion;
 }
-
+// sawit manajemen
 function calculateSawitSimple() {
     // Ambil Data
     const totalTrees = parseInt(document.getElementById('manualTrees').value) || 0;
@@ -835,6 +925,7 @@ function calculateSawitSimple() {
         </div>`;
 }
 
+// marjin bisnis
 function calculateBizProfit() {
     const rev = parseFloat(document.getElementById('bizRevenue').value.replace(/\./g, "")) || 0;
     const cogs = parseFloat(document.getElementById('bizCogs').value.replace(/\./g, "")) || 0;
@@ -874,6 +965,7 @@ function calculateBizProfit() {
     `;
 }
 
+// haid jadwal
 function analyzeCycle() {
     const lastDateInput = document.getElementById('lastPeriod').value;
     const duration = parseInt(document.getElementById('periodDuration').value) || 7;
@@ -903,13 +995,13 @@ function analyzeCycle() {
     let saranGejala = "";
 
     if (selectedSymptoms.length > 0) {
-        saranGejala = `<b style="color:orange">[ ANALISIS GEJALA ]</b><br>`;
+        saranGejala = `<b style="color:orange">[ ANALISIS GEJALA/SYMPTOM ANALYSIS ]</b><br>`;
         selectedSymptoms.forEach(s => {
-            if (s === "Kram Perut") saranGejala += `• <b>Kram:</b> Gunakan kompres hangat & air jahe.<br>`;
-            if (s === "Jerawat") saranGejala += `• <b>Jerawat:</b> Jaga kebersihan wajah, kurangi susu & gula.<br>`;
-            if (s === "Pusing") saranGejala += `• <b>Pusing:</b> Cukup istirahat & kurangi cahaya terang.<br>`;
-            if (s === "Mood Swings") saranGejala += `• <b>Mood:</b> Meditasi atau jalan santai, kurangi kafein.<br>`;
-            // if (s === "Payudara Sensitif") saranGejala += `• <b>Sensitif:</b> Gunakan bra yang nyaman/longgar.<br>`;
+            if (s === "Kram Perut") saranGejala += `• <b>Kram:</b> Gunakan kompres hangat & air jahe(Use warm compress & ginger water).<br>`;
+            if (s === "Jerawat") saranGejala += `• <b>Jerawat:</b> Jaga kebersihan wajah, kurangi susu & gula(Keep your face clean, reduce milk & sugar).<br>`;
+            if (s === "Pusing") saranGejala += `• <b>Pusing:</b> Cukup istirahat & kurangi cahaya terang(Get enough rest & reduce bright light).<br>`;
+            if (s === "Mood Swings") saranGejala += `• <b>Mood:</b> Meditasi atau jalan santai, kurangi kafein(Meditate or take a walk, reduce caffeine).<br>`;
+            if (s === "Payudara Sensitif") saranGejala += `• <b>Sensitif:</b> Gunakan bra yang nyaman/longgar(Wear a comfortable/loose bra).<br>`;
         });
         saranGejala += `<hr style="border:0; border-top:1px solid rgba(255,115,0,0.2); margin:10px 0;">`;
     }
@@ -919,21 +1011,39 @@ function analyzeCycle() {
 
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = `
-        <div style="border-left: 3px solid orange; padding-left: 12px; font-family: monospace; font-size: 13px;">
-            <b style="color:orange">[ ESTIMASI SIKLUS ]</b><br>
-            • Haid Berikutnya : <b style="color:#ff4444">${formatDate(nextPeriod)}</b><br>
-            • Puncak Subur   : <b style="color:#22c55e">${formatDate(ovulationDay)}</b><br>
-            <small style="color:#888;">Rentang Subur: ${formatDate(fertileStart)} - ${formatDate(fertileEnd)}</small>
+        <div style= padding-left: 12px; font-family: monospace; font-size: 13px;">
+            <b style="color:orange">[ ESTIMASI SIKLUS/CYCLE ESTIMATION ]</b><br>
+            • Haid Berikutnya/Next Period : <b style="color:#ff4444">${formatDate(nextPeriod)}</b><br>
+            • Puncak Subur/Fertile Peak : <b style="color:#22c55e">${formatDate(ovulationDay)}</b><br>
+            <small style="color:#888;">Rentang Subur/Fertile Range: ${formatDate(fertileStart)} - ${formatDate(fertileEnd)}</small>
             
             <hr style="border:0; border-top:1px solid rgba(255,115,0,0.2); margin:10px 0;">
             
             ${saranGejala}
             
-            <b style="color:orange">[ TIPS SISTEM ]</b><br>
-            <small style="color:#ddd;">Siklus Anda terdeteksi ${cycle} hari. Catat perubahan gejala setiap bulan untuk membantu diagnosa medis jika diperlukan.</small>
+            <b style="color:orange">[ TIPS SISTEM/SYSTEM TIPS ]</b><br>
+            <small style="color:#ddd;">Siklus Anda terdeteksi(Your cycle is detected) ${cycle} hari. Catat perubahan gejala setiap bulan untuk membantu diagnosa medis jika diperlukan(daily. Note changes in symptoms each month to aid in a medical diagnosis if necessary.).</small>
         </div>`;
 }
 
+const translations = {
+    id: {
+        title: "Kalkulator Pajak Tahunan",
+        salaryLabel: "GAJI PER BULAN:",
+        btnCalculate: "Hitung Pajak Saya"
+    },
+    en: {
+        title: "Annual Tax Calculator",
+        salaryLabel: "MONTHLY SALARY:",
+        btnCalculate: "Calculate My Tax"
+    }
+};
+
+function changeLang(lang) {
+    // Contoh mengganti judul alat
+    document.querySelector('.tool-title').innerText = translations[lang].title;
+    // ... teruskan untuk elemen lainnya
+}
 
 
 

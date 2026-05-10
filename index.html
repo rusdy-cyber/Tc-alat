@@ -606,6 +606,35 @@
           </div>
           <!--  -->
           <div class="tool-card">
+            <i class="fa-solid fa-shapes tool-icon"></i>
+            <h3 class="tool-title">Civil Volume Master</h3>
+        
+            <select id="shapeType" class="tool-input" onchange="toggleInputs()" style="background:#111; color:white;">
+                <option value="balok">Balok / Kubus (Pilar Kotak)</option>
+                <option value="tabung">Tabung (Pilar Bulat / Pipa)</option>
+                <option value="kerucut">Kerucut (Tumpukan Pasir)</option>
+            </select>
+        
+            <!-- Input P, L, T (Untuk Balok) -->
+            <div id="groupBalok" class="flex gap-2 mt-3">
+                <input type="number" id="volP" placeholder="P (m)" class="tool-input flex-1">
+                <input type="number" id="volL" placeholder="L (m)" class="tool-input flex-1">
+                <input type="number" id="volT" placeholder="T (m)" class="tool-input flex-1">
+            </div>
+        
+            <!-- Input R & T (Untuk Tabung/Kerucut) -->
+            <div id="groupBulat" class="flex gap-2 mt-3" style="display:none;">
+                <input type="number" id="volR" placeholder="Jari-jari (r) m" class="tool-input flex-1">
+                <input type="number" id="volTinggi" placeholder="Tinggi (m)" class="tool-input flex-1">
+            </div>
+        
+            <button onclick="calculateCivilVolume()" class="tool-btn mt-3">Calculate Volume</button>
+        
+            <div id="civilVolResult" class="result-box"></div>
+        </div>
+        
+          <!--  -->
+          <div class="tool-card">
             <i class="fa-solid fa-file-invoice-dollar tool-icon"></i>
             <h3 class="tool-title">Kalkulator Pajak Tahunan(NPWP)</h3>
 
@@ -807,30 +836,30 @@
         <!--  -->
         <div class="tool-card">
           <i class="fa-solid fa-calendar-heart tool-icon"></i>
-          <h3 class="tool-title">Menstrual Tracker (Pro)</h3>
+          <h3 class="tool-title">Menstrual Tracker/Menstrual Tracker (Pro)</h3>
       
-          <label style="color:orange; font-size:12px;">MULAI HAID TERAKHIR:</label>
+          <label style="color:orange; font-size:12px;">MULAI HAID TERAKHIR/LAST MENSTRUATION START:</label>
           <input type="date" id="lastPeriod" class="tool-input">
           
           <div class="flex gap-2 mt-3">
               <div class="flex-1">
-                  <label style="color:orange; font-size:11px;">LAMA HAID (HARI):</label>
+                  <label style="color:orange; font-size:11px;">LAMA HAID/DURATION OF MENSTRUATION (HARI/day):</label>
                   <input type="number" id="periodDuration" placeholder="5-7" class="tool-input">
               </div>
               <div class="flex-1">
-                  <label style="color:orange; font-size:11px;">SIKLUS (HARI):</label>
+                  <label style="color:orange; font-size:11px;">SIKLUS/CYCLE (HARI/day):</label>
                   <input type="number" id="cycleLength" placeholder="21-35" class="tool-input">
               </div>
           </div>
       
           <!-- FITUR CATATAN GEJALA -->
-          <label style="color:orange; font-size:12px; display:block; margin-top:15px;">GEJALA YANG DIRASAKAN:</label>
+          <label style="color:orange; font-size:12px; display:block; margin-top:15px;">GEJALA YANG DIRASAKAN/SYMPTOMS EXPERIENCED:</label>
           <div class="flex-column gap-1 mt-1" style="font-size: 13px; color: #ddd;">
-              <label><input type="checkbox" name="symptom" value="Kram Perut"> Kram Perut</label>
-              <label><input type="checkbox" name="symptom" value="Jerawat"> Muncul Jerawat</label>
-              <label><input type="checkbox" name="symptom" value="Pusing"> Pusing / Migrain</label>
-              <label><input type="checkbox" name="symptom" value="Mood Swings"> Mood Tidak Stabil</label>
-              <!-- <label><input type="checkbox" name="symptom" value="Payudara Sensitif"> Payudara Sensitif</label> -->
+              <label><input type="checkbox" name="symptom" value="Kram Perut"> Kram Perut/Stomach Cramps</label>
+              <label><input type="checkbox" name="symptom" value="Jerawat"> Muncul Jerawat/Acne appears</label>
+              <label><input type="checkbox" name="symptom" value="Pusing"> Pusing / Migrain(Dizziness/Migraine)</label>
+              <label><input type="checkbox" name="symptom" value="Mood Swings"> Mood Tidak Stabil/Unstable Mood</label>
+              <label><input type="checkbox" name="symptom" value="Payudara Sensitif"> Payudara Sensitif/Sensitive Breasts</label>
           </div>
       
           <button onclick="analyzeCycle()" class="tool-btn mt-3">Analyze Cycle</button>
@@ -865,6 +894,7 @@
     >
       <p>© 2026 Tiger Cyber(novan rudi ardiansah) - IT Student politeknik</p>
     </footer>
+
     <button
       id="scrollTop"
       onclick="window.scrollTo(0,0)"
