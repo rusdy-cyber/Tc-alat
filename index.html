@@ -199,7 +199,7 @@
           <div class="tool-card" data-category="Keuangan">
             <i class="fa-solid fa-percent tool-icon"></i>
             <div class="category-badge">Persen</div>
-            <h3 class="tool-title">Pesen/diskon Calculator</h3>
+            <h3 class="tool-title">Persen/diskon Calculator</h3>
 
             <input
               type="number"
@@ -342,6 +342,25 @@
               </details>
             </div>
           </div>
+          <!-- sekuriti -->
+          <div class="tool-card" data-category="Elektro & & Keamanan">
+            <div class="category-badge">Recon</div>
+            <i class="fa-solid fa-user-secret tool-icon"></i>
+            <h3 class="tool-title">Cyber Recon (OSINT)</h3>
+        
+            <select id="reconType" class="tool-input" style="background:#111; color:white;">
+                <option value="hash">Hash Decrypt (MD5)</option>
+                <option value="revip">Reverse IP Lookup</option>
+                <option value="cms">CMS Detector</option>
+                <option value="subdomain">Subdomain Finder</option> 
+            </select>
+        
+            <input type="text" id="reconInput" placeholder="Hash / IP / Domain" class="tool-input mt-2">
+            <button onclick="runRecon()" class="tool-btn">Execute Recon</button>
+        
+            <div id="reconResult" class="result-box"></div>
+        </div>
+        
 
 <!-- keuangan -->
           <div class="tool-card" data-category="Keuangan">

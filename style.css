@@ -378,4 +378,19 @@ input[type="radio"] {
   background: #ff8800;
 }
 
+/* Warna Ungu untuk Recon */
+[data-category="recon"] .category-badge {
+  color: #a855f7;
+  background: rgba(168, 85, 247, 0.15);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+[data-category="recon"] .tool-btn {
+  background: #a855f7;
+  color: white;
+}
+
+[data-category="recon"] .tool-btn:hover {
+  background: #9333ea;
+}
 

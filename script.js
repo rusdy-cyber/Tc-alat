@@ -320,6 +320,89 @@ if (/\d/.test(hostname)) {
   }
 }
 
+// 
+async function runRecon() {
+    const type = document.getElementById('reconType').value;
+    const input = document.getElementById('reconInput').value.trim();
+    const res = document.getElementById('reconResult');
+
+    if (!input) {
+        res.innerHTML = '<span style="color:#ff4444">Silakan masukkan data!</span>';
+        res.style.display = 'block';
+        return;
+    }
+
+    res.style.display = 'block';
+    res.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Connecting to Cyber Database...';
+
+    try {
+        if (type === 'hash') {
+            // Menggunakan API MD5Online (Contoh Lookup)
+            // Karena banyak API Hash butuh Key, kita arahkan ke DB Terbesar
+            res.innerHTML = `
+                <div style="border-left: 3px solid #a855f7; padding-left: 10px;">
+                    <b style="color:#a855f7">[ HASH LOOKUP ]</b><br>
+                    Target: ${input}<br>
+                    <a href="https://md5decrypt.net" target="_blank" class="ptes-link" style="margin-top:10px; display:inline-block;">
+                        <i class="fa-solid fa-magnifying-glass"></i> Check on MD5Decrypt DB
+                    </a>
+                </div>`;
+        } 
+        
+        else if (type === 'revip') {
+            // Menggunakan API HackerTarget (Sangat Akurat untuk IP/Domain)
+            const response = await fetch(`https://hackertarget.com{input}`);
+            const data = await response.text();
+            
+            res.innerHTML = `
+                <div style="border-left: 3px solid #a855f7; padding-left: 10px;">
+                    <b style="color:#a855f7">[ REVERSE IP RESULT ]</b><br>
+                    <pre style="font-size:10px; color:#bbb; background:#111; padding:10px; border-radius:5px; margin-top:5px; max-height:200px; overflow-y:auto;">${data}</pre>
+                </div>`;
+        }
+
+        else if (type === 'cms') {
+            // Menggunakan API WhatCMS (Membutuhkan API Key jika ingin JSON)
+            // Untuk versi gratis tanpa key, kita arahkan ke link analisis cepat
+            res.innerHTML = `
+                <div style="border-left: 3px solid #a855f7; padding-left: 10px;">
+                    <b style="color:#a855f7">[ CMS DETECTOR ]</b><br>
+                    Target: ${input}<br><br>
+                    <a href="https://whatcms.org{input}" target="_blank" class="ptes-link">
+                        <i class="fa-solid fa-microscope"></i> Analyze with WhatCMS
+                    </a>
+                </div>`;
+        }
+        // ... di dalam fungsi runRecon() ...
+else if (type === 'subdomain') {
+    const target = input.replace(/^(https?:\/\/)/, "").replace(/\/$/, "");
+    
+    res.style.display = 'block';
+    res.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Scanning Subdomains...';
+
+    try {
+        // Menggunakan API HackerTarget HostSearch
+        const response = await fetch(`https://hackertarget.com{target}`);
+        const data = await response.text();
+
+        res.innerHTML = `
+            <div style="border-left: 3px solid #a855f7; padding-left: 10px;">
+                <b style="color:#a855f7">[ SUBDOMAIN ENUMERATION ]</b><br>
+                Target: <b>${target}</b><br>
+                <pre style="font-size:10px; color:#bbb; background:#111; padding:10px; border-radius:5px; margin-top:5px; max-height:250px; overflow-y:auto; border: 1px solid #333;">${data}</pre>
+                <small style="color:#888; margin-top:5px; display:block;">*Data based on public DNS records.</small>
+            </div>`;
+    } catch (error) {
+        res.innerHTML = '<span style="color:#ff4444">Error: Gagal mengambil data. Cek koneksi atau domain.</span>';
+    }
+}
+
+    } catch (error) {
+        res.innerHTML = '<span style="color:#ff4444">Error: Koneksi API Gagal atau Terblokir CORS.</span>';
+    }
+}
+
+
 // target tabungan
 function calculateAdvancedSavings() {
   // 1. Ambil target uang (hapus titik format agar jadi angka murni)
