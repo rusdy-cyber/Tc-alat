@@ -1026,18 +1026,38 @@ function analyzeCycle() {
         </div>`;
 }
 
-const translations = {
-    id: {
-        title: "Kalkulator Pajak Tahunan",
-        salaryLabel: "GAJI PER BULAN:",
-        btnCalculate: "Hitung Pajak Saya"
-    },
-    en: {
-        title: "Annual Tax Calculator",
-        salaryLabel: "MONTHLY SALARY:",
-        btnCalculate: "Calculate My Tax"
-    }
-};
+function filterTools(category) {
+    const cards = document.querySelectorAll('.tool-card');
+    const buttons = document.querySelectorAll('.category-btn');
+
+    // 1. Update status tombol aktif
+    buttons.forEach(btn => {
+        btn.classList.remove('active');
+        if(btn.getAttribute('onclick').includes(category)) btn.classList.add('active');
+    });
+
+    // 2. Logika Sembunyi/Munculkan Card
+    cards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        
+        // Animasi keluar
+        card.style.opacity = "0";
+        card.style.transform = "scale(0.9)";
+
+        setTimeout(() => {
+            if (category === 'all' || cardCategory === category) {
+                card.style.display = "block";
+                setTimeout(() => {
+                    card.style.opacity = "1";
+                    card.style.transform = "scale(1)";
+                }, 50);
+            } else {
+                card.style.display = "none";
+            }
+        }, 300);
+    });
+}
+
 
 function changeLang(lang) {
     // Contoh mengganti judul alat

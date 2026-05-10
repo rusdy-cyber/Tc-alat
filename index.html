@@ -86,11 +86,23 @@
           </p>
           <h2 class="text-4xl font-black mt-3">Tools Unggulan</h2>
         </div>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+          <button onclick="filterTools('all')" class="category-btn active">All Tools</button>
+          <button onclick="filterTools('Elektro & & Keamanan')" class="category-btn text-sm px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 hover:bg-orange-500 hover:text-black transition">Elektro & Network & Security</button>
+          <button onclick="filterTools('Keuangan')" class="category-btn text-sm px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 hover:bg-orange-500 hover:text-black transition">Finance/Keuangan</button>
+          <button onclick="filterTools('Mesin')" class="category-btn text-sm px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 hover:bg-orange-500 hover:text-black transition">Mesin</button>
+          <button onclick="filterTools('Sipil')" class="category-btn text-sm px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 hover:bg-orange-500 hover:text-black transition">Sipil</button>
+          <button onclick="filterTools('Kebugaran/Health')" class="category-btn text-sm px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 hover:bg-orange-500 hover:text-black transition">Kewanitaan(Femininity) & <br>Kebugaran(Fitness)</button>
+          <button onclick="filterTools('Penelitian')" class="category-btn text-sm px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 hover:bg-orange-500 hover:text-black transition">Penelitian</button>
+          <button onclick="filterTools('Perkebunan')" class="category-btn text-sm px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 hover:bg-orange-500 hover:text-black transition">Perkebunan</button>
+        </div>
+        
+        
+        <div id="toolsGrid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <!-- Subnet -->
-          <div class="tool-card">
+          <div class="tool-card" data-category="Elektro & & Keamanan">
             <i class="fa-solid fa-network-wired tool-icon"></i>
+            <div class="category-badge">Security</div>
             <h3 class="tool-title">Subnet Calculator</h3>
 
             <input
@@ -121,8 +133,9 @@
           </div>
 
           <!-- Encode Decode -->
-          <div class="tool-card">
+          <div class="tool-card" data-category="Elektro & & Keamanan">
             <i class="fa-solid fa-code tool-icon"></i>
+            <div class="category-badge">Security</div>
             <h3 class="tool-title">Encode / Decode 64b</h3>
 
             <textarea
@@ -151,8 +164,9 @@
           </div>
 
           <!-- Citation -->
-          <div class="tool-card">
+          <div class="tool-card" data-category="Penelitian">
             <i class="fa-solid fa-book tool-icon"></i>
+            <div class="category-badge">Citation</div>
             <h3 class="tool-title">Citation daftar pustaka Generator</h3>
 
             <input
@@ -182,8 +196,9 @@
           </div>
 
           <!-- Percentage Calculator -->
-          <div class="tool-card">
+          <div class="tool-card" data-category="Keuangan">
             <i class="fa-solid fa-percent tool-icon"></i>
+            <div class="category-badge">Persen</div>
             <h3 class="tool-title">Pesen/diskon Calculator</h3>
 
             <input
@@ -208,8 +223,9 @@
           </div>
 
           <!-- Fake Link Analyzer -->
-          <div class="tool-card">
+          <div class="tool-card" data-category="Elektro & & Keamanan">
             <i class="fa-solid fa-link tool-icon"></i>
+            <div class="category-badge">Security</div>
             <h3 class="tool-title">link Palsu Analisis</h3>
 
             <input
@@ -235,8 +251,9 @@
           </div>
 
           <!-- PTES -->
-          <div class="tool-card">
+          <div class="tool-card" data-category="Elektro & & Keamanan">
             <i class="fa-solid fa-shield-halved tool-icon"></i>
+            <div class="category-badge">Security</div>
             <h3 class="tool-title">PTES Learning</h3>
 
             <div class="space-y-4 mt-6">
@@ -326,8 +343,10 @@
             </div>
           </div>
 
-          <div class="tool-card">
+<!-- keuangan -->
+          <div class="tool-card" data-category="Keuangan">
             <i class="fa-solid fa-calendar-check tool-icon"></i>
+            <div class="category-badge">Tabungan</div>
             <h3 class="tool-title">Perencanaan Tabungan</h3>
 
             <label style="color: orange; font-size: 12px">TARGET UANG:</label>
@@ -376,9 +395,11 @@
 
             <div id="savingsResult" class="result-box"></div>
           </div>
-          <!--  -->
-          <div class="tool-card">
+
+          <!-- mesin -->
+          <div class="tool-card" data-category="Mesin">
             <i class="fa-solid fa-gears tool-icon"></i>
+            <div class="category-badge">Technical Converter</div>
             <h3 class="tool-title">Technical Converter</h3>
 
             <input
@@ -413,9 +434,11 @@
 
             <div id="unitResult" class="result-box"></div>
           </div>
-          <!--  -->
-          <div class="tool-card">
+
+          <!-- keuangan -->
+          <div class="tool-card" data-category="Keuangan">
             <i class="fa-solid fa-briefcase tool-icon"></i>
+            <div class="category-badge">Gaji</div>
             <h3 class="tool-title">Perhitungan gaji dan potongan pajak</h3>
 
             <!-- Input Gaji -->
@@ -458,9 +481,10 @@
             <div id="salaryResult" class="result-box"></div>
           </div>
 
-          <!--  -->
-          <div class="tool-card">
+          <!-- elektro -->
+          <div class="tool-card" data-category="Elektro & & Keamanan">
             <i class="fa-solid fa-bolt tool-icon"></i>
+            <div class="category-badge">Elektro</div>
             <h3 class="tool-title">Ohm's Law Solver</h3>
             <small style="color: #888; display: block; margin-bottom: 10px"
               >Isi 2 kolom untuk cari 1 nilai sisanya</small
@@ -491,9 +515,11 @@
 
             <div id="ohmResult" class="result-box"></div>
           </div>
-          <!--  -->
-          <div class="tool-card">
+
+          <!-- kebugaran -->
+          <div class="tool-card" data-category="Kebugaran/Health">
             <i class="fa-solid fa-fire-flame-simple tool-icon"></i>
+            <div class="category-badge">Kebugaran</div>
             <h3 class="tool-title">Menghitung tubuh ideal</h3>
 
             <div class="flex gap-4 mb-3">
@@ -546,10 +572,18 @@
             <div id="fitResult" class="result-box"></div>
           </div>
 
-          <!--  -->
-          <div class="tool-card">
+          <!-- sipil -->
+          <div class="tool-card" data-category="Sipil">
             <i class="fa-solid fa-hard-hat tool-icon"></i>
+            <div class="category-badge">Material Beton & Semen</div>
             <h3 class="tool-title">Civil Concrete Calc</h3>
+            <div class="text-xs text-gray-400 mt-3 leading-relaxed">
+              Fungsi Utama: Estimasi Material Beton & Semen.
+              <br />
+              Deskripsi: Alat spesifik untuk menghitung kebutuhan material pada pekerjaan pengecoran lantai, jalan, atau pondasi. Alat ini tidak hanya menghitung volume beton yang dibutuhkan, tapi juga memberikan estimasi jumlah sak semen yang harus dibeli.
+              <br />
+              Kegunaan Nyata: Membantu tukang atau pengawas proyek agar pemesanan material pas, tidak kurang (yang bikin kerjaan terhenti) dan tidak lebih (yang bikin boros uang).
+            </div>
 
             <div class="flex gap-2">
               <input
@@ -581,10 +615,19 @@
 
             <div id="concreteResult" class="result-box"></div>
           </div>
-          <!--  -->
-          <div class="tool-card">
+
+          <!-- sipil -->
+          <div class="tool-card" data-category="Sipil">
             <i class="fa-solid fa-ruler-combined tool-icon"></i>
+            <div class="category-badge">Lahan & Bangunan</div>
             <h3 class="tool-title">Slope Calculator</h3>
+            <div class="text-xs text-gray-400 mt-3 leading-relaxed">
+              Fungsi Utama: Analisis Kemiringan Lahan & Bangunan.
+              <br />
+              Deskripsi: Digunakan untuk menentukan tingkat kemiringan (gradien) sebuah permukaan dalam bentuk Persen (%) atau Derajat (°).
+              <br />
+              Kegunaan Nyata: Sangat krusial saat merancang saluran pembuangan air agar air bisa mengalir (drainase), menentukan kemiringan atap rumah agar tidak bocor, atau merancang akses jalan tanjakan (ramp).
+            </div>
 
             <input
               type="number"
@@ -604,10 +647,19 @@
             </button>
             <div id="slopeResult" class="result-box"></div>
           </div>
-          <!--  -->
-          <div class="tool-card">
+
+          <!--sipil  -->
+          <div class="tool-card" data-category="Sipil">
             <i class="fa-solid fa-shapes tool-icon"></i>
+            <div class="category-badge">Geometri Struktur</div>
             <h3 class="tool-title">Civil Volume Master</h3>
+            <div class="text-xs text-gray-400 mt-3 leading-relaxed">
+              Fungsi Utama: Kalkulator Geometri Struktur.
+              <br />
+              Deskripsi: Alat ini digunakan untuk menghitung volume benda tiga dimensi berdasarkan bentuknya (Balok, Tabung, atau Kerucut). Dalam dunia sipil, ini penting untuk menghitung kapasitas penampungan air, volume tiang pancang bulat (pilar), atau gundukan material urukan (pasir/tanah).
+              <br />
+              Intinya: Menghitung kapasitas ruang atau isi dari sebuah struktur sebelum mulai membangun.
+            </div>
         
             <select id="shapeType" class="tool-input" onchange="toggleInputs()" style="background:#111; color:white;">
                 <option value="balok">Balok / Kubus (Pilar Kotak)</option>
@@ -633,9 +685,10 @@
             <div id="civilVolResult" class="result-box"></div>
         </div>
         
-          <!--  -->
-          <div class="tool-card">
+          <!-- keuangan -->
+          <div class="tool-card" data-category="Keuangan">
             <i class="fa-solid fa-file-invoice-dollar tool-icon"></i>
+            <div class="category-badge">Pajak</div>
             <h3 class="tool-title">Kalkulator Pajak Tahunan(NPWP)</h3>
 
             <label style="color: orange; font-size: 12px"
@@ -690,9 +743,11 @@
             <div id="annualTaxResult" class="result-box"></div>
           </div>
           <!--  -->
+
           <!-- ALAT SAWIT MANAGEMENT PRO -->
-          <div class="tool-card">
+          <div class="tool-card" data-category="Perkebunan">
             <i class="fa-solid fa-tree tool-icon"></i>
+            <div class="category-badge">sawit</div>
             <h3 class="tool-title">Sawit Management</h3>
 
             <!-- Data Pokok -->
@@ -810,9 +865,10 @@
             <div id="sawitResult" class="result-box"></div>
           </div>
 
-          <!--  -->
-          <div class="tool-card">
+          <!-- keuangan -->
+          <div class="tool-card" data-category="Keuangan">
             <i class="fa-solid fa-chart-line tool-icon"></i>
+            <div class="category-badge">Bisnis Analis</div>
             <h3 class="tool-title">Business Profit Analyzer</h3>
         
             <label style="color:orange; font-size:12px;">OMZET (TOTAL PENJUALAN):</label>
@@ -833,9 +889,11 @@
         
             <div id="bizResult" class="result-box"></div>
         </div>
-        <!--  -->
-        <div class="tool-card">
+
+        <!-- kebugaran -->
+        <div class="tool-card" data-category="Kebugaran/Health">
           <i class="fa-solid fa-calendar-heart tool-icon"></i>
+          <div class="category-badge">Kewanitaan</div>
           <h3 class="tool-title">Menstrual Tracker/Menstrual Tracker (Pro)</h3>
       
           <label style="color:orange; font-size:12px;">MULAI HAID TERAKHIR/LAST MENSTRUATION START:</label>

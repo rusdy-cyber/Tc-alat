@@ -92,3 +92,10 @@ Biaya Lain: 200.000 (Bayar iklan/ongkir)
 Tujuan: Pemilik bisnis bisa lihat bahwa dari 2 juta uang masuk, untung aslinya cuma 600rb. Sisanya adalah uang modal yang jangan dipakai jajan.
 ```
 
+            <!-- <div class="text-xs text-gray-400 mt-3 leading-relaxed">
+              Contoh phishing:
+              <br />
+              
+              <br />
+              
+            </div> -->
