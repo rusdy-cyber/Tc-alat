@@ -163,84 +163,7 @@
             </button>
           </div>
 
-          <!-- Citation -->
-          <div class="tool-card" data-category="Penelitian">
-            <div class="category-badge">Academic</div>
-            <i class="fa-solid fa-book-bookmark tool-icon"></i>
-            <h3 class="tool-title">Multi-Format Citation Generator</h3>
-        
 
-        
-            <!-- FORMAT -->
-            <label class="cite-label">Format Sitasi</label>
-            <select id="citeFormat" class="tool-input" style="background:#111;color:white;margin-top:0;">
-                <option value="ieee">IEEE — Teknik / IT / Politeknik</option>
-                <option value="apa">APA 7th — Sosial / Psikologi / PAI</option>
-                <option value="mla">MLA — Bahasa / Sastra / Seni</option>
-                <option value="chicago">Chicago — Sejarah / Hukum Islam</option>
-                <option value="harvard">Harvard — Ekonomi / Manajemen</option>
-            </select>
-            <p class="cite-hint">💡 Tidak tahu pakai format apa? Tanya dosen pembimbing atau lihat panduan skripsi kampus kamu.</p>
-        
-            <!-- PENULIS -->
-            <label class="cite-label">Nama Penulis</label>
-            <div id="authorContainer">
-                <div class="author-row">
-                    <input type="text" class="tool-input author-name" placeholder="Contoh: Budi Santoso, M.Kom" style="margin:0;">
-                </div>
-            </div>
-            <button onclick="addAuthorField()" class="tool-btn" style="background:#1a1a1a;color:orange;font-size:11px;width:auto;padding:5px 14px;margin-top:2px;">
-                <i class="fa-solid fa-plus"></i> Tambah Penulis
-            </button>
-            <p class="cite-hint">📌 Nama penulis ada di halaman pertama jurnal/artikel. Gelar (M.Kom, S.T, dll) boleh ikut diketik, akan otomatis dihapus.</p>
-        
-            <!-- JUDUL -->
-            <label class="cite-label">Judul Artikel / Penelitian</label>
-            <input type="text" id="citeTitle" placeholder="Ketik judul sesuai yang tertulis di jurnal" class="tool-input" style="margin-top:0;">
-            <p class="cite-hint">📌 Salin persis dari halaman judul artikel atau dari laman jurnal online.</p>
-        
-            <!-- NAMA JURNAL -->
-            <label class="cite-label">Nama Jurnal / Prosiding</label>
-            <input type="text" id="citeJournalName" placeholder="Contoh: Jurnal Agrista, JIKI, Semnas UNY" class="tool-input" style="margin-top:0;">
-            <p class="cite-hint">📌 Nama jurnal biasanya dicetak miring di bagian atas/bawah halaman artikel. Beda dengan judul artikel.</p>
-        
-            <!-- TAHUN, VOL, NO, HAL -->
-            <label class="cite-label">Detail Publikasi</label>
-            <div class="cite-row">
-                <div class="cite-row-item">
-                    <label>Tahun ✱</label>
-                    <input type="number" id="citeYear" placeholder="2023" class="tool-input" style="margin:0;">
-                </div>
-                <div class="cite-row-item">
-                    <label>Volume</label>
-                    <input type="text" id="citeVol" placeholder="4" class="tool-input" style="margin:0;">
-                </div>
-                <div class="cite-row-item">
-                    <label>Nomor</label>
-                    <input type="text" id="citeNum" placeholder="2" class="tool-input" style="margin:0;">
-                </div>
-                <div class="cite-row-item">
-                    <label>Halaman</label>
-                    <input type="text" id="citePage" placeholder="10-20" class="tool-input" style="margin:0;">
-                </div>
-            </div>
-            <p class="cite-hint">
-                📌 Semua info ini ada di halaman artikel atau di daftar jurnal online (<a href="https://garuda.kemdikbud.go.id" target="_blank">Garuda</a>, <a href="https://scholar.google.com" target="_blank">Google Scholar</a>, <a href="https://sinta.kemdikbud.go.id" target="_blank">SINTA</a>).
-                Format halaman: <b style="color:#999">10-20</b> atau <b style="color:#999">329–340</b>.
-            </p>
-        
-            <!-- DOI -->
-            <label class="cite-label">Link / DOI <span style="color:#555;font-weight:400;text-transform:none">(Opsional)</span></label>
-            <input type="text" id="citeUrl" placeholder="Contoh: 10.1234/jurnal.v4i2.567 atau https://..." class="tool-input" style="margin-top:0;">
-            <p class="cite-hint">📌 DOI biasanya ada di pojok artikel, diawali <b style="color:#999">10.</b> — kalau tidak ada, kosongkan saja.</p>
-        
-            <!-- TOMBOL -->
-            <button onclick="generateCitation()" class="tool-btn mt-3" style="margin-top:14px;">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> Generate & Format
-            </button>
-        
-            <div id="citationResult" class="result-box"></div>
-        </div>
         
 
           <!-- Percentage Calculator -->
@@ -810,6 +733,84 @@
             <div id="annualTaxResult" class="result-box"></div>
           </div>
           <!--  -->
+                    <!-- Citation -->
+                    <div class="tool-card" data-category="Penelitian">
+                      <div class="category-badge">Academic</div>
+                      <i class="fa-solid fa-book-bookmark tool-icon"></i>
+                      <h3 class="tool-title">Multi-Format Citation Generator</h3>
+                  
+          
+                  
+                      <!-- FORMAT -->
+                      <label class="cite-label">Format Sitasi</label>
+                      <select id="citeFormat" class="tool-input" style="background:#111;color:white;margin-top:0;">
+                          <option value="ieee">IEEE — Teknik / IT / Politeknik</option>
+                          <option value="apa">APA 7th — Sosial / Psikologi / PAI</option>
+                          <option value="mla">MLA — Bahasa / Sastra / Seni</option>
+                          <option value="chicago">Chicago — Sejarah / Hukum Islam</option>
+                          <option value="harvard">Harvard — Ekonomi / Manajemen</option>
+                      </select>
+                      <p class="cite-hint">💡 Tidak tahu pakai format apa? Tanya dosen pembimbing atau lihat panduan skripsi kampus kamu.</p>
+                  
+                      <!-- PENULIS -->
+                      <label class="cite-label">Nama Penulis</label>
+                      <div id="authorContainer">
+                          <div class="author-row">
+                              <input type="text" class="tool-input author-name" placeholder="Contoh: Budi Santoso, M.Kom" style="margin:0;">
+                          </div>
+                      </div>
+                      <button onclick="addAuthorField()" class="tool-btn" style="background:#1a1a1a;color:orange;font-size:11px;width:auto;padding:5px 14px;margin-top:2px;">
+                          <i class="fa-solid fa-plus"></i> Tambah Penulis
+                      </button>
+                      <p class="cite-hint">📌 Nama penulis ada di halaman pertama jurnal/artikel. Gelar (M.Kom, S.T, dll) boleh ikut diketik, akan otomatis dihapus.</p>
+                  
+                      <!-- JUDUL -->
+                      <label class="cite-label">Judul Artikel / Penelitian</label>
+                      <input type="text" id="citeTitle" placeholder="Ketik judul sesuai yang tertulis di jurnal" class="tool-input" style="margin-top:0;">
+                      <p class="cite-hint">📌 Salin persis dari halaman judul artikel atau dari laman jurnal online.</p>
+                  
+                      <!-- NAMA JURNAL -->
+                      <label class="cite-label">Nama Jurnal / Prosiding</label>
+                      <input type="text" id="citeJournalName" placeholder="Contoh: Jurnal Agrista, JIKI, Semnas UNY" class="tool-input" style="margin-top:0;">
+                      <p class="cite-hint">📌 Nama jurnal biasanya dicetak miring di bagian atas/bawah halaman artikel. Beda dengan judul artikel.</p>
+                  
+                      <!-- TAHUN, VOL, NO, HAL -->
+                      <label class="cite-label">Detail Publikasi</label>
+                      <div class="cite-row">
+                          <div class="cite-row-item">
+                              <label>Tahun ✱</label>
+                              <input type="number" id="citeYear" placeholder="2023" class="tool-input" style="margin:0;">
+                          </div>
+                          <div class="cite-row-item">
+                              <label>Volume</label>
+                              <input type="text" id="citeVol" placeholder="4" class="tool-input" style="margin:0;">
+                          </div>
+                          <div class="cite-row-item">
+                              <label>Nomor</label>
+                              <input type="text" id="citeNum" placeholder="2" class="tool-input" style="margin:0;">
+                          </div>
+                          <div class="cite-row-item">
+                              <label>Halaman</label>
+                              <input type="text" id="citePage" placeholder="10-20" class="tool-input" style="margin:0;">
+                          </div>
+                      </div>
+                      <p class="cite-hint">
+                          📌 Semua info ini ada di halaman artikel atau di daftar jurnal online (<a href="https://garuda.kemdikbud.go.id" target="_blank">Garuda</a>, <a href="https://scholar.google.com" target="_blank">Google Scholar</a>, <a href="https://sinta.kemdikbud.go.id" target="_blank">SINTA</a>).
+                          Format halaman: <b style="color:#999">10-20</b> atau <b style="color:#999">329–340</b>.
+                      </p>
+                  
+                      <!-- DOI -->
+                      <label class="cite-label">Link / DOI <span style="color:#555;font-weight:400;text-transform:none">(Opsional)</span></label>
+                      <input type="text" id="citeUrl" placeholder="Contoh: 10.1234/jurnal.v4i2.567 atau https://..." class="tool-input" style="margin-top:0;">
+                      <p class="cite-hint">📌 DOI biasanya ada di pojok artikel, diawali <b style="color:#999">10.</b> — kalau tidak ada, kosongkan saja.</p>
+                  
+                      <!-- TOMBOL -->
+                      <button onclick="generateCitation()" class="tool-btn mt-3" style="margin-top:14px;">
+                          <i class="fa-solid fa-wand-magic-sparkles"></i> Generate & Format
+                      </button>
+                  
+                      <div id="citationResult" class="result-box"></div>
+                  </div>
 
           <!-- ALAT SAWIT MANAGEMENT PRO -->
           <div class="tool-card" data-category="Perkebunan">
