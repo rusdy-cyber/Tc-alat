@@ -163,33 +163,299 @@ function decodeBase64() {
 }
 
 // sitation
-function generateCitation() {
-    // 1. Ambil elemen input
-    const author = document.getElementById('author').value.trim();
-    const title = document.getElementById('title').value.trim();
-    const year = document.getElementById('year').value.trim();
-    const result = document.getElementById('citationResult');
+// Fungsi Otomatis Huruf Kapital di Awal Kata
+// 1. Fungsi Otomatis Huruf Kapital & Balik Nama
+// List gelar yang sering muncul untuk dibuang otomatis
+// 1. Data Gelar & Helper
+// ═══════════════════════════════════════════════════════════════
+//  MULTI-FORMAT CITATION GENERATOR — Full JS
+//  Mendukung: APA 7 · IEEE · MLA · Chicago · Harvard
+// ═══════════════════════════════════════════════════════════════
 
-    // 2. Validasi sederhana
-    if (!author || !title || !year) {
-        result.style.display = 'block';
-        result.innerHTML = '<span style="color: #ff4444;">Mohon isi semua kolom (Penulis, Judul, Tahun)</span>';
+// ── Daftar gelar akademik yang akan dibersihkan dari nama ────────────────────
+// ═══════════════════════════════════════════════════════════════
+//  MULTI-FORMAT CITATION GENERATOR — Full JS
+//  Mendukung: APA 7 · IEEE · MLA · Chicago · Harvard
+// ═══════════════════════════════════════════════════════════════
+
+// ── Daftar gelar akademik yang dibersihkan dari nama ─────────────────────────
+const academicTitles = [
+    's.kom','m.kom','s.tr','m.t','s.t','prof','dr','ph.d',
+    'm.pd','s.pd','m.si','s.si','m.sc','s.p','se','sh',
+    'mm','mba','mt','st','spd','mpd','s.h','s.e','m.m',
+    'm.h','s.sos','m.sos','s.ag','m.ag','s.psi','m.psi'
+];
+
+// ── Bersihkan gelar dari nama ─────────────────────────────────────────────────
+function cleanName(name) {
+    if (!name) return "";
+    let baseName = name.split(',')[0];
+    let parts = baseName.trim().split(/\s+/);
+    let filtered = parts.filter(part => {
+        let clean = part.toLowerCase().replace(/\./g, '');
+        return !academicTitles.includes(clean);
+    });
+    return filtered.join(" ");
+}
+
+// ── Title Case (untuk IEEE, MLA, Chicago, Harvard) ───────────────────────────
+function toTitleCase(str) {
+    if (!str) return "";
+    const minorWords = [
+        'dan','di','ke','dari','yang','untuk','pada','dalam','dengan','oleh',
+        'the','a','an','and','or','of','in','on','at','to','for','by','with'
+    ];
+    return str.toLowerCase().split(' ').map((word, i) => {
+        if (i !== 0 && minorWords.includes(word)) return word;
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
+}
+
+// ── Sentence Case (untuk APA — hanya huruf pertama & setelah titik dua) ──────
+function toSentenceCase(str) {
+    if (!str) return "";
+    return str.toLowerCase().replace(/(^\w|:\s*\w)/g, c => c.toUpperCase());
+}
+
+// ── Tambah titik HANYA jika string belum berakhir titik ──────────────────────
+//    Mencegah titik ganda: "Sah, A.. (2016)" → "Sah, A. (2016)"
+function dotAfter(str) {
+    return str.trimEnd().endsWith('.') ? '' : '.';
+}
+
+// ── Format satu nama penulis sesuai gaya ─────────────────────────────────────
+//  APA / Harvard  → Last, I.
+//  IEEE           → I. Last
+//  MLA / Chicago  → Last, Firstname (penulis ke-1) | Firstname Last (selanjutnya)
+function formatAuthorNameSingle(rawName, format, isFirst) {
+    let cleaned  = cleanName(rawName);
+    let parts    = cleaned.trim().split(/\s+/).map(p =>
+        p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()
+    );
+
+    if (parts.length === 0) return "";
+    if (parts.length === 1) return parts[0];
+
+    let lastName  = parts.pop();
+    let initials  = parts.map(p => p.charAt(0) + ".").join(" ");
+    let firstFull = parts.join(" ");
+
+    switch (format) {
+        case 'apa':
+        case 'harvard':
+            return `${lastName}, ${initials}`;        // Santoso, B. A.
+        case 'ieee':
+            return `${initials} ${lastName}`;          // B. A. Santoso
+        case 'mla':
+        case 'chicago':
+            return isFirst
+                ? `${lastName}, ${firstFull}`          // Santoso, Budi (penulis ke-1)
+                : `${firstFull} ${lastName}`;          // Budi Santoso (selanjutnya)
+    }
+    return `${initials} ${lastName}`;
+}
+
+// ── Gabung semua nama penulis sesuai aturan gaya ─────────────────────────────
+function buildAuthorString(authorNames, format) {
+    if (!authorNames || authorNames.length === 0) return "";
+
+    const n         = authorNames.length;
+    const formatted = authorNames.map((name, i) =>
+        formatAuthorNameSingle(name, format, i === 0)
+    );
+
+    // APA 7: Daftar Pustaka wajib tulis SEMUA nama s.d. 20 penulis
+    if (format === 'apa') {
+        if (n === 1) return formatted[0];
+        if (n <= 20) {
+            let arr  = [...formatted];
+            let last = arr.pop();
+            return arr.join(', ') + ', & ' + last;
+        }
+        // 21+ penulis: 19 pertama → . . . → nama terakhir
+        return formatted.slice(0, 19).join(', ') + ', . . . ' + formatted[n - 1];
+    }
+
+    // Threshold et al. per format non-APA
+    const etalThreshold = { ieee: 4, mla: 3, chicago: 4, harvard: 4 };
+    const threshold     = etalThreshold[format] ?? 4;
+
+    // MLA: koma sebelum et al. → "Aja, Novan, et al."
+    if (n >= threshold) return `${formatted[0]}${format === 'mla' ? ',' : ''} et al.`;
+    if (n === 1)        return formatted[0];
+
+    const lastSep = {
+        ieee:    ', and ',   // IEEE pakai ", and" bukan "dan"
+        mla:     ', and ',
+        chicago: ', and ',
+        harvard: ' & '
+    }[format] ?? ' dan ';
+
+    if (n === 2) return formatted[0] + lastSep + formatted[1];
+
+    // 3 penulis
+    let arr  = [...formatted];
+    let last = arr.pop();
+    return arr.join(', ') + lastSep + last;
+}
+
+// ── Tambah field input penulis ────────────────────────────────────────────────
+function addAuthorField() {
+    const container = document.getElementById('authorContainer');
+    const div       = document.createElement('div');
+    div.className   = 'flex gap-2 mb-2';
+    div.innerHTML   = `
+        <input type="text"
+               class="tool-input author-name flex-1"
+               placeholder="Nama Penulis Selanjutnya">
+        <button onclick="this.parentElement.remove()"
+                class="tool-btn"
+                style="width:40px;margin:0;background:#ff4444;color:white;">×</button>
+    `;
+    container.appendChild(div);
+}
+
+// ── FUNGSI UTAMA ──────────────────────────────────────────────────────────────
+function generateCitation() {
+    const format   = document.getElementById('citeFormat').value;
+    const rawTitle = document.getElementById('citeTitle').value.trim();
+    const rawJName = document.getElementById('citeJournalName').value.trim();
+    const year     = document.getElementById('citeYear').value.trim();
+    const vol      = document.getElementById('citeVol').value.trim();
+    const no       = document.getElementById('citeNum').value.trim();
+    const page     = document.getElementById('citePage').value.trim();
+    const rawUrl   = document.getElementById('citeUrl').value.trim();
+    const res      = document.getElementById('citationResult');
+
+    const authorInputs = document.querySelectorAll('.author-name');
+    const authorNames  = [...authorInputs].map(el => el.value.trim()).filter(Boolean);
+
+    // Validasi
+    if (authorNames.length === 0 || !rawTitle || !year) {
+        res.innerHTML     = `<span style="color:#ff4444">⚠️ Nama Penulis, Judul, dan Tahun wajib diisi!</span>`;
+        res.style.display = 'block';
         return;
     }
 
-    // 3. Tampilkan hasil dengan gaya Cyber/Orange
-    result.style.display = 'block'; // MEMASTIKAN BOX MUNCUL
-    result.style.marginTop = '15px';
-    result.style.padding = '12px';
-    result.style.background = 'rgba(255, 115, 0, 0.05)';
-    result.style.borderLeft = '3px solid orange';
+    const authorString = buildAuthorString(authorNames, format);
+    const title        = (format === 'apa') ? toSentenceCase(rawTitle) : toTitleCase(rawTitle);
+    const jName        = toTitleCase(rawJName);
 
-    // Format APA: Nama, A. (Tahun). Judul buku/artikel.
-    result.innerHTML = `
-        <span style="color: orange; font-weight: bold; font-size: 12px;">APA CITATION:</span><br>
-        <span style="color: #ddd;">${author}. (${year}). <i>${title}</i>.</span>
+    let doiLink = "";
+    if (rawUrl) {
+        doiLink = rawUrl.startsWith('http') ? rawUrl : `https://doi.org/${rawUrl}`;
+    }
+
+    let finalCite = "";
+
+    switch (format) {
+
+        // ── APA 7 ──────────────────────────────────────────────────────────────
+        case 'apa': {
+            finalCite  = `${authorString}${dotAfter(authorString)} (${year}). ${title}. `;
+            finalCite += `<i>${jName}</i>, <i>${vol}</i>(${no}), ${page}.`;
+            if (doiLink) finalCite += ` ${doiLink}`;
+
+            const n        = authorNames.length;
+            const lastWord = cleanName(authorNames[0]).trim().split(/\s+/).pop();
+            const inText   = n >= 3
+                ? `(${lastWord} et al., ${year})`
+                : `(${authorString.replace(/,.*/, '').trim()}, ${year})`;
+
+            finalCite += `
+                <div data-nocopy="true" style="margin-top:14px;padding:10px 12px;
+                            background:rgba(251,191,36,.08);
+                            border-left:3px solid #fbbf24;border-radius:4px;
+                            font-size:11px;color:#fbbf24;line-height:1.7;">
+                    <b>💡 Tips APA 7:</b><br>
+                    • <b>Daftar Pustaka</b> (bagian ini): ${n} penulis ditulis lengkap ✅<br>
+                    • <b>Sitasi dalam teks / body note:</b>
+                      <span style="color:#fff;font-style:italic;">${inText}</span>
+                      ${n >= 3 ? ' ← gunakan <b>et al.</b> untuk 3+ penulis' : ''}
+                </div>`;
+            break;
+        }
+
+        // ── IEEE ───────────────────────────────────────────────────────────────
+        case 'ieee':
+            finalCite  = `${authorString}, "${title}," `;
+            finalCite += `<i>${jName}</i>, vol. ${vol}, no. ${no}, pp. ${page}, ${year}`;
+            finalCite += doiLink ? `, [Online]. Tersedia: ${doiLink}.` : '.';
+            break;
+
+        // ── MLA ────────────────────────────────────────────────────────────────
+        case 'mla':
+            finalCite  = `${authorString}${dotAfter(authorString)} "${title}." `;
+            finalCite += `<i>${jName}</i>, vol. ${vol}, no. ${no}, ${year}, pp. ${page}.`;
+            if (doiLink) finalCite += ` ${doiLink}.`;
+            break;
+
+        // ── Chicago ────────────────────────────────────────────────────────────
+        case 'chicago':
+            finalCite  = `${authorString}${dotAfter(authorString)} "${title}." `;
+            finalCite += `<i>${jName}</i> ${vol}, no. ${no} (${year}): ${page}.`;
+            if (doiLink) finalCite += ` ${doiLink}.`;
+            break;
+
+        // ── Harvard ────────────────────────────────────────────────────────────
+        case 'harvard':
+            finalCite  = `${authorString} ${year}, '${title}', `;
+            finalCite += `<i>${jName}</i>, vol. ${vol}, no. ${no}, pp. ${page}.`;
+            if (doiLink) finalCite += ` ${doiLink}.`;
+            break;
+    }
+
+    res.style.display = 'block';
+    res.innerHTML = `
+        <div style="
+                    background:rgba(34,197,94,.05);
+                    padding:15px;border-radius:5px;">
+            <b style="color:#22c55e;font-size:11px;">
+                ✅ HASIL SIAP SALIN (${format.toUpperCase()}):
+            </b>
+            <div id="citeText" style="margin-top:10px;color:#ddd;line-height:1.8;">
+                ${finalCite}
+            </div>
+            <button onclick="copyToClipboard('citeText')"
+                    class="tool-btn"
+                    style="width:auto;padding:8px 20px;background:#22c55e;
+                           color:black;margin-top:15px;font-size:12px;">
+                <i class="fa-solid fa-copy"></i> SALIN DAFTAR PUSTAKA
+            </button>
+        </div>
     `;
 }
+
+// ── Copy ke clipboard ─────────────────────────────────────────────────────────
+function copyToClipboard(id) {
+    
+    const el   = document.getElementById(id);
+    const clone = el.cloneNode(true);
+    clone.querySelectorAll('[data-nocopy]').forEach(e => e.remove());
+    const text = clone.innerText.trim();
+    if (!text) return;
+
+    navigator.clipboard.writeText(text)
+        .then(() => alert("✅ Sitasi berhasil disalin!"))
+        .catch(() => {
+            const ta          = document.createElement('textarea');
+            ta.value          = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity  = '0';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            try {
+                document.execCommand('copy');
+                alert("✅ Sitasi berhasil disalin!");
+            } catch (e) {
+                alert("Gagal menyalin. Silakan salin manual.");
+            }
+            document.body.removeChild(ta);
+        });
+}
+
+
 
 // analisis url
 function analyzeURL() {
@@ -1297,7 +1563,7 @@ function analyzeCycle() {
             
             ${saranGejala}
             
-            <b style="color:orange">[ TIPS SISTEM/SYSTEM TIPS ]</b><br>
+            <b  style="color:orange">[ TIPS SISTEM/SYSTEM TIPS ]</b><br>
             <small style="color:#ddd;">Siklus Anda terdeteksi(Your cycle is detected) ${cycle} hari. Catat perubahan gejala setiap bulan untuk membantu diagnosa medis jika diperlukan(daily. Note changes in symptoms each month to aid in a medical diagnosis if necessary.).</small>
         </div>`;
 }

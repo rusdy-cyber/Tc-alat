@@ -394,3 +394,40 @@ input[type="radio"] {
   background: #9333ea;
 }
 
+.cite-label {
+  display: block;
+  font-size: 11px;
+  color: #aaa;
+  margin-bottom: 4px;
+  margin-top: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.cite-hint {
+  font-size: 10px;
+  color: #666;
+  margin-top: 3px;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+.cite-hint a {
+  color: #f97316;
+  text-decoration: none;
+}
+.cite-hint a:hover { text-decoration: underline; }
+.cite-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px;
+}
+.cite-row-item label {
+  display: block;
+  font-size: 10px;
+  color: #888;
+  margin-bottom: 3px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.author-row { display: flex; gap: 8px; margin-bottom: 6px; }
+.author-row input { flex: 1; }
